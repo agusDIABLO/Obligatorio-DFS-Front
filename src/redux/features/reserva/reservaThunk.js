@@ -9,7 +9,7 @@ import { obtenerMisReservasService,
 
 
  export const getReservationsSlice = createAsyncThunk(
-    "reservations/getAll",
+    "reservations/user",
     
     async (_, thunkAPI) => {
     const controller = new AbortController();

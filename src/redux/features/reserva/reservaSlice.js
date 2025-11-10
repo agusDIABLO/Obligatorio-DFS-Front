@@ -3,9 +3,10 @@ import { getReservationsSlice,
          createReservationSlice,
          cancelReservationSlice,
          getAllReservationsSlice,
-         modificarFechaReservaSlice,
-         obtenerReservaPorIdCategorySlice
+         modifyReservationDateSlice,
+         getReservationsByCategorySlice
 } from './reservaThunk.js';
+
 
 
 const reservasSlice = createSlice({
@@ -15,7 +16,14 @@ const reservasSlice = createSlice({
     loading: false,
     error: null,
   },
- reducers: {},
+ reducers: {
+
+    cargarReservasIniciales: (state, action) => {
+        const reservasIniciales = action.payload;
+        return reservasIniciales;
+    }
+
+ },
   extraReducers: (builder) => {
     builder
       //  GET
@@ -31,6 +39,14 @@ const reservasSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(getAllReservationsSlice.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload;
+      })
+      .addCase(getReservationsByCategorySlice.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload;
+      })    
 
       //  CREATE
       .addCase(createReservationSlice.fulfilled, (state, action) => {
@@ -38,14 +54,14 @@ const reservasSlice = createSlice({
       })
 
       //  DELETE
-      .addCase(deleteReservationSlice.fulfilled, (state, action) => {
+      .addCase(cancelReservationSlice.fulfilled, (state, action) => {
         state.list = state.list.filter(
           (r) => r._id !== action.payload
         );
       })
 
       //  UPDATE
-      .addCase(updateReservationSlice.fulfilled, (state, action) => {
+      .addCase(modifyReservationDateSlice.fulfilled, (state, action) => {
         const index = state.list.findIndex(
           (r) => r._id === action.payload._id
         );
@@ -54,6 +70,6 @@ const reservasSlice = createSlice({
   },
 });
 
-export const {cargarReservasIniciales, agregarReserva, eliminarReserva, modificarReserva} = reservasSlice.actions;
+export const { cargarReservasIniciales } = reservasSlice.actions;
 export default reservasSlice.reducer;
         
