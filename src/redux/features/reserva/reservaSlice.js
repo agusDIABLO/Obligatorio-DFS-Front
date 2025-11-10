@@ -1,21 +1,26 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { getReservationsSlice,
-         createReservationSlice,
-         cancelReservationSlice,
-         getAllReservationsSlice,
-         modificarFechaReservaSlice,
-         obtenerReservaPorIdCategorySlice
+import {
+  getReservationsSlice,
+  createReservationSlice,
+  cancelReservationSlice,
+  getAllReservationsSlice,
+  modifyReservationDateSlice,
+  getReservationsByCategorySlice,
 } from './reservaThunk.js';
 
 
 const reservasSlice = createSlice({
-    name: 'reservas',
-     initialState: {
+  name: 'reservas',
+  initialState: {
     list: [],
     loading: false,
     error: null,
   },
- reducers: {},
+  reducers: {
+    cargarReservasIniciales: (state, action) => {
+      state.list = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //  GET
@@ -37,23 +42,19 @@ const reservasSlice = createSlice({
         state.list.push(action.payload);
       })
 
-      //  DELETE
-      .addCase(deleteReservationSlice.fulfilled, (state, action) => {
-        state.list = state.list.filter(
-          (r) => r._id !== action.payload
-        );
+      //  DELETE (cancel)
+      .addCase(cancelReservationSlice.fulfilled, (state, action) => {
+        state.list = state.list.filter((r) => r._id !== action.payload);
       })
 
-      //  UPDATE
-      .addCase(updateReservationSlice.fulfilled, (state, action) => {
-        const index = state.list.findIndex(
-          (r) => r._id === action.payload._id
-        );
+      //  UPDATE (modify date)
+      .addCase(modifyReservationDateSlice.fulfilled, (state, action) => {
+        const index = state.list.findIndex((r) => r._id === action.payload._id);
         if (index !== -1) state.list[index] = action.payload;
       });
   },
 });
 
-export const {cargarReservasIniciales, agregarReserva, eliminarReserva, modificarReserva} = reservasSlice.actions;
+export const { cargarReservasIniciales } = reservasSlice.actions;
 export default reservasSlice.reducer;
         

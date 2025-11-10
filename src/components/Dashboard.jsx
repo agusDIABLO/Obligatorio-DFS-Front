@@ -6,7 +6,7 @@ import { esTokenValido } from "../utils/tokenUtils.js";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice.js";
 import { obtenerMisReservasService } from "../services/reservationServices.js";
 import { cargarReservasIniciales } from "../redux/features/reserva/reservaSlice.js";
-import { getUsersSlice } from "../redux/features/user/userSlice.js";
+import { getUsersSlice } from "../redux/features/user/userThunk.js";
 
 const Dashboard = () => {
   const [logueado, setLogueado] = useState(false);

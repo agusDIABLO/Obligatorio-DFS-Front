@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Formik, Field } from "formik";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 import styles from "./login/Login.module.css";
 import { getRegisterSchema } from "../schemas/registerSchemas";
 import { registerApiObligatorio } from "../services/registerService";
@@ -31,8 +32,7 @@ const Register = () => {
         try {
             const { name, email,phone, password } = values;
             const {token} = await registerApiObligatorio(name, email, phone, password);
-            console.log('data', data);
-
+            console.log('token', token);
 
             // Guardar token e info en localStorage (como en login)
             const decoded = jwtDecode(token);

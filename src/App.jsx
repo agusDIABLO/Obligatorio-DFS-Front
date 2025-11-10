@@ -3,7 +3,7 @@ import "./App.css";
 //import Menu from "./components/Menu";
 import Login from "./components/login/Login";
 import "./styles/estilos.css";
-//import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard";
 
 const App = () => {
   const [logueado] = useState(true);
