@@ -9,6 +9,8 @@ const userSlice = createSlice({
     error: null,
   },
   reducers: {
+
+    
     //acciones sincrónicas
   },
   extraReducers: (builder) => {
