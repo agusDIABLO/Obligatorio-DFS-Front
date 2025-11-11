@@ -1,17 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { getReservationsSlice,
-         createReservationSlice,
-         cancelReservationSlice,
-         getAllReservationsSlice,
-         modifyReservationDateSlice,
-         getReservationsByCategorySlice
+import {
+  getReservationsSlice,
+  createReservationSlice,
+  cancelReservationSlice,
+  getAllReservationsSlice,
+  modifyReservationDateSlice,
+  getReservationsByCategorySlice,
 } from './reservaThunk.js';
 
 
 
 const reservasSlice = createSlice({
-    name: 'reservas',
-     initialState: {
+  name: 'reservas',
+  initialState: {
     list: [],
     loading: false,
     error: null,
@@ -53,18 +54,14 @@ const reservasSlice = createSlice({
         state.list.push(action.payload);
       })
 
-      //  DELETE
+      //  DELETE (cancel)
       .addCase(cancelReservationSlice.fulfilled, (state, action) => {
-        state.list = state.list.filter(
-          (r) => r._id !== action.payload
-        );
+        state.list = state.list.filter((r) => r._id !== action.payload);
       })
 
-      //  UPDATE
+      //  UPDATE (modify date)
       .addCase(modifyReservationDateSlice.fulfilled, (state, action) => {
-        const index = state.list.findIndex(
-          (r) => r._id === action.payload._id
-        );
+        const index = state.list.findIndex((r) => r._id === action.payload._id);
         if (index !== -1) state.list[index] = action.payload;
       });
   },
