@@ -5,7 +5,8 @@ import { Table } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 
 const Tarjetas = () => {
-  const reservas = useSelector((state) => state.reservasSlice);
+  const reservas = useSelector((state) => state.reservasSlice.list);
+  console.log("reservas desde Redux:", reservas);
   const [fechaFiltro, setFechaFiltro] = useState("");
   const [listaFiltrada, setListaFiltrada] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
@@ -26,6 +27,7 @@ const Tarjetas = () => {
   const aplicarFiltro = (fecha) => {
     let auxList = reservas;
     if (fecha) {
+      
       auxList = reservas.filter((r) => r.fechaReserva === fecha);
       setSearchParam({ fecha });
     } else {
@@ -33,6 +35,8 @@ const Tarjetas = () => {
     }
     setListaFiltrada(auxList);
   };
+
+  console.log('listaFiltrada', listaFiltrada)
 
   return (
     <>
