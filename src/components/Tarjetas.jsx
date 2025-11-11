@@ -5,7 +5,8 @@ import { Table } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 
 const Tarjetas = () => {
-  const reservas = useSelector((state) => state.reservasSlice);
+  // seleccionar la lista de reservas (el slice guarda { list, loading, error })
+  const reservas = useSelector((state) => state.reservasSlice.list || []);
   const [fechaFiltro, setFechaFiltro] = useState("");
   const [listaFiltrada, setListaFiltrada] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
