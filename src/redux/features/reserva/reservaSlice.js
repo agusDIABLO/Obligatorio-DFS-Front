@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import {
   getReservationsSlice,
   createReservationSlice,
@@ -17,29 +17,28 @@ const reservasSlice = createSlice({
     loading: false,
     error: null,
   },
- reducers: {
+  reducers: {
 
     cargarReservasIniciales: (state, action) => {
-        const reservasIniciales = action.payload;
-        return reservasIniciales;
+      const reservasIniciales = action.payload;
+      // mantener la forma del slice: { list, loading, error }
+      state.list = reservasIniciales;
     },
 
     borrarReserva: (state, action) => {
-        const reservaId = action.payload;
-        state.list = state.list.filter((reserva) => reserva._id !== reservaId);
+      const reservaId = action.payload;
+      state.list = state.list.filter((reserva) => reserva._id !== reservaId);
     },
 
     updateReserva: (state, action) => {
-       const reserva = action.payload;
-       const reservaUpdate = state.find((r) => r._id === reserva._id);
-       Object.assign(reservaUpdate, reserva);
+      const reserva = action.payload;
+      const index = state.list.findIndex((r) => r._id === reserva._id);
+      if (index !== -1) {
+        state.list[index] = { ...state.list[index], ...reserva };
+      }
     }
 
-
-
-
-
- },
+  },
   extraReducers: (builder) => {
     builder
       //  GET
@@ -62,7 +61,7 @@ const reservasSlice = createSlice({
       .addCase(getReservationsByCategorySlice.fulfilled, (state, action) => {
         state.loading = false;
         state.list = action.payload;
-      })    
+      })
 
       //  CREATE
       .addCase(createReservationSlice.fulfilled, (state, action) => {
@@ -84,4 +83,3 @@ const reservasSlice = createSlice({
 
 export const { cargarReservasIniciales, updateReserva, borrarReserva } = reservasSlice.actions;
 export default reservasSlice.reducer;
-        

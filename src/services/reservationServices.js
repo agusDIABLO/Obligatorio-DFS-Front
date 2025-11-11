@@ -41,7 +41,7 @@ export const crearReservaService = async (nuevaReserva) => {
     return api.post('/reservations', nuevaReserva)
         .then(response => {
             console.log('Tarea agregada:', response.data)
-            return response.data;   
+            return response.data;
         })
         .catch(error => {
             console.error('Error al crear la reserva:', error);
@@ -90,5 +90,5 @@ export const obtenerReservaPorIdCategory = async (categoryId) => {
         .catch(error => {
             console.error('Error al obtener reservas por categoría:', error);
             throw error;
-        }); 
+        });
 }

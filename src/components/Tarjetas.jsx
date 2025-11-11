@@ -5,8 +5,8 @@ import { Table } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 
 const Tarjetas = () => {
-  const reservas = useSelector((state) => state.reservasSlice.list);
-  console.log("reservas desde Redux:", reservas);
+  // seleccionar la lista de reservas (el slice guarda { list, loading, error })
+  const reservas = useSelector((state) => state.reservasSlice.list || []);
   const [fechaFiltro, setFechaFiltro] = useState("");
   const [listaFiltrada, setListaFiltrada] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
@@ -36,7 +36,10 @@ const Tarjetas = () => {
     setListaFiltrada(auxList);
   };
 
-  console.log('listaFiltrada', listaFiltrada)
+  // loguear sólo cuando cambie la lista filtrada para evitar logs por cada render
+  useEffect(() => {
+    console.log('listaFiltrada', listaFiltrada);
+  }, [listaFiltrada]);
 
   return (
     <>
