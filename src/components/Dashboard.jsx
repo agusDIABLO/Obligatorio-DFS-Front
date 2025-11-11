@@ -32,6 +32,7 @@ const Dashboard = () => {
   }, []);
 
   const validarLogueado = () => {
+    let localStorage = window.localStorage;
     const token = localStorage.getItem("token");
     const estaLogueado = esTokenValido(token);
     return estaLogueado;
@@ -61,7 +62,7 @@ const Dashboard = () => {
 
   if (logueado) {
     return (
-      <div >
+      <div className="container">
         <Menu />
         <Outlet />
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "../components/login/Login";
 import Register from "../components/Register";
 import Dashboard from "../components/Dashboard";
@@ -17,6 +17,8 @@ const Rutas = () => {
         <Route path="/" element={<Dashboard />} />
           <Route index element={<Contenido />} />
           <Route path="/editarReserva/:id" element={<EditarTarjeta />} />
+      
+        <Route path="*" element={<Navigate to="/" replace></Navigate>}></Route>
       </Routes>
     </BrowserRouter>
   );
