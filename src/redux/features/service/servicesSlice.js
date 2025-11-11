@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {obtenerTodosLosServicios} from './servicesThunk.js';
+import {getAllServiciosThunk} from './servicesThunk.js';
 
 
 const initialState = {
@@ -12,10 +12,9 @@ const serviciosSlice = createSlice({
   name: "servicios",
   initialState,
   reducers: {
-    obtenerTodosLosServicios: (state, action) => {
-      const servicios = action.payload;
-      return servicios;
-    }
+     obtenerTodosLosServicios: (state, action) => {
+     state.servicios = action.payload;
+}
 
 
    
