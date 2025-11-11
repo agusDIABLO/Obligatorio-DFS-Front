@@ -15,10 +15,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     const estaLogueado = validarLogueado();
+    const tienePermiso = validarRole();
+
 
     let cargaUsuarios;
 
-    if (estaLogueado) {
+    if (estaLogueado && tienePermiso) {
       cargaInicialReservas();
       cargaUsuarios = cargaInicialUsuarios();
     }
@@ -36,6 +38,13 @@ const Dashboard = () => {
     const token = localStorage.getItem("token");
     const estaLogueado = esTokenValido(token);
     return estaLogueado;
+  };
+
+
+  const validarRole = () => {
+    let localStorage = window.localStorage;
+    const role = localStorage.getItem("role");
+    return role == "admin";
   };
 
   const cargaInicialUsuarios = () => {
