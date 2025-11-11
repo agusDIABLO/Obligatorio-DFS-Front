@@ -4,15 +4,25 @@ import { obtenerUsuarioByIdService, updatePlanUsuarioService } from "../services
 
 const Menu = () => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
+  const [userId, setUserId] = useState(null);
   const [userPlan, setUserPlan] = useState("");
+
+    useEffect(() => {
+    const storedId = localStorage.getItem("userId");
+      console.log("userId del localStorage:", storedId);
+    if (storedId) {
+      setUserId(storedId);
+    }
+  }, []);
+
 
   useEffect(() => {
     
     const fetchUser = async () => {
         try {
             const response = await obtenerUsuarioByIdService(userId);
-            setUserPlan(response.plan);
+            setUserPlan(response.User.plan);
+            console.log('plan', response)
         }
         catch (error) {
             console.error("Error al obtener el usuario:", error);
