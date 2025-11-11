@@ -36,7 +36,10 @@ const Tarjetas = () => {
     setListaFiltrada(auxList);
   };
 
-  console.log('listaFiltrada', listaFiltrada)
+  // loguear sólo cuando cambie la lista filtrada para evitar logs por cada render
+  useEffect(() => {
+    console.log('listaFiltrada', listaFiltrada);
+  }, [listaFiltrada]);
 
   return (
     <>
