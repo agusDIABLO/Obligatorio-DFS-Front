@@ -27,6 +27,16 @@ export const obtenerMisReservasService = async () => {
         });
 }
 
+export const obtenerReservaByIdService = async (reservationId) => {
+    return api.get(`/reservations/reservation/${reservationId}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('Error al obtener la reserva por ID:', error);
+            throw error;
+        });
+}
+
+
 export const crearReservaService = async (nuevaReserva) => {
     return api.post('/reservations', nuevaReserva)
         .then(response => {

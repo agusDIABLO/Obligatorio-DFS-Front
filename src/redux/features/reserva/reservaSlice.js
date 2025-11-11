@@ -22,7 +22,22 @@ const reservasSlice = createSlice({
     cargarReservasIniciales: (state, action) => {
         const reservasIniciales = action.payload;
         return reservasIniciales;
+    },
+
+    borrarReserva: (state, action) => {
+        const reservaId = action.payload;
+        state.list = state.list.filter((reserva) => reserva._id !== reservaId);
+    },
+
+    updateReserva: (state, action) => {
+       const reserva = action.payload;
+       const reservaUpdate = state.find((r) => r._id === reserva._id);
+       Object.assign(reservaUpdate, reserva);
     }
+
+
+
+
 
  },
   extraReducers: (builder) => {
@@ -67,6 +82,6 @@ const reservasSlice = createSlice({
   },
 });
 
-export const { cargarReservasIniciales } = reservasSlice.actions;
+export const { cargarReservasIniciales, updateReserva, borrarReserva } = reservasSlice.actions;
 export default reservasSlice.reducer;
         

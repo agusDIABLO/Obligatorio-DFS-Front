@@ -20,7 +20,7 @@ export const obtenerUsuariosService = async () => {
     return api.get('/users/all')
         .then(response => response.data)
         .catch(error => {
-            console.error('Error al obtener usuarios:', error);
+            console.error('Error al obtener usuarios en service:', error);
             throw error;
         });
 }
