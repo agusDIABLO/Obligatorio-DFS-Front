@@ -61,6 +61,8 @@ const Menu = () => {
     <span className="text-sm">Plan actual: <b>{userPlan || "Cargando..."}</b></span>
       <nav>
         <Link to="/">Home</Link> | <Link to="/login">Logout</Link>|{" "}
+        <Link to="/reserva">Reservar</Link> |{" "}
+        <Link to="/grafico">Gráfico</Link> |{" "}
         <button onClick={handleLogout}>Logout</button>
         <button onClick={handleChangePlan} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition">Cambiar plan</button>
       </nav>
