@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {getAllServiciosThunk} from './servicesThunk.js';
+import {obtenerTodosLosServicios} from './servicesThunk.js';
 
 
 const initialState = {
