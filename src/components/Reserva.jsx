@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Formik, Field } from "formik";
 import { toast } from "react-toastify";
@@ -8,120 +9,132 @@ import { jwtDecode } from "jwt-decode";
 import styles from "./login/Login.module.css";
 import { getReservaSchema } from "../schemas/reservaSchemas";
 import { crearReservaService } from "../services/reservationServices";
+import { getUsersByRole } from "../redux/features/user/userThunk";
+import moment from "moment"; // <-- lo estás usando en onSubmit
 
 const initialValues = {
-    barbero: "",
-    servicio: "",
-    fechaReserva: ""
+  barbero: "",
+  servicio: "",
+  fechaReserva: ""
 };
 
 const Reserva = () => {
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const { t, i18n } = useTranslation();
+  const { listByRole: barberos, loading: cargandoBarberos, error } = useSelector(
+    (state) => state.userSlice
+  );
 
-    const validationSchema = useMemo(() => {
-        return getReservaSchema(t);
-    }, [i18n.language]);
+  const validationSchema = useMemo(() => getReservaSchema(t), [i18n.language, t]);
 
-    const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(getUsersByRole("barber"));
+    }
+  }, [dispatch]);
 
-    const onSubmit = async (values, actions) => {
-        try {
-            const { barbero, servicio, fechaReserva } = values;
-            const { token } = await crearReservaService(barbero, servicio, fechaReserva);
+  const onSubmit = async (values, actions) => {
+    try {
+      const { barbero, servicio, fechaReserva } = values;
+      const { token } = await crearReservaService(barbero, servicio, fechaReserva);
 
-            const decoded = jwtDecode(token);
-            const { exp, iat, id: userId, role } = decoded;
+      const decoded = jwtDecode(token);
+      const { exp, id: userId, role } = decoded;
 
-            const expirationTime = moment.unix(exp);
-            const now = moment();
-            const diffMinutes = expirationTime.diff(now, "minutes");
+      const expirationTime = moment.unix(exp);
+      const now = moment();
+      const diffMinutes = expirationTime.diff(now, "minutes");
 
-            localStorage.setItem("token", token);
-            localStorage.setItem("userId", userId);
-            localStorage.setItem("sessionTime", diffMinutes);
-            localStorage.setItem("role", role);
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("sessionTime", diffMinutes);
+      localStorage.setItem("role", role);
 
-            toast.success(t("reserva.success_message"));
-            actions.resetForm();
-            navigate("/");
-        } catch (error) {
-            console.log('error en registro', error);
-            toast.error(error.message);
-        }
-    };
+      toast.success(t("reserva.success_message"));
+      actions.resetForm();
+      navigate("/");
+    } catch (error) {
+      console.log("error en registro", error);
+      toast.error(error.message || "Error al crear la reserva");
+    }
+  };
 
-    return (
-        <div className={styles.loginContainer}>
-            <h2>{t("reserva.title")}</h2>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-            >
-                {({
-                    handleSubmit,
-                    handleChange,
-                    values,
-                    errors,
-                    touched
-                }) => (
-                    <Form onSubmit={handleSubmit} className={styles.loginForm}>
-                        <Form.Group controlId="barbero">
-                            <Form.Label>{t("reserva.barbero")}</Form.Label>
-                            <Field
-                                as="select"
-                                name="barbero"
-                                className={`form-control ${touched.barbero && errors.barbero ? "is-invalid" : ""}`}
-                            >
-                                <option value="">{t("reserva.select_barbero")}</option>
-                                <option value="barbero1">Barbero 1</option>
-                                <option value="barbero2">Barbero 2</option>
-                            </Field>
-                            {touched.barbero && errors.barbero ? (
-                                <div className="invalid-feedback">{errors.barbero}</div>
-                            ) : null}
-                        </Form.Group>
+  return (
+    <div className={styles.loginContainer}>
+      <h2>Realizar Reserva</h2>
 
-                        <Form.Group controlId="servicio">
-                            <Form.Label>{t("reserva.servicio")}</Form.Label>
-                            <Field
-                                as="select"
-                                name="servicio"
-                                className={`form-control ${touched.servicio && errors.servicio ? "is-invalid" : ""}`}
-                            >
-                                <option value="">{t("reserva.select_servicio")}</option>
-                                <option value="corte">Corte de cabello</option>
-                                <option value="afeitado">Afeitado</option>
-                            </Field>
-                            {touched.servicio && errors.servicio ? (
-                                <div className="invalid-feedback">{errors.servicio}</div>
-                            ) : null}
-                        </Form.Group>
+      {/* Si hubo error al cargar barberos, mostralo arriba del form (opcional) */}
+      {error && <div className="alert alert-danger">{String(error)}</div>}
 
-                        <Form.Group controlId="fechaReserva">
-                            <Form.Label>{t("reserva.fechaReserva")}</Form.Label>
-                            <Field
-                                type="date"
-                                name="fechaReserva"
-                                className={`form-control ${touched.fechaReserva && errors.fechaReserva ? "is-invalid" : ""}`}
-                            />
-                            {touched.fechaReserva && errors.fechaReserva ? (
-                                <div className="invalid-feedback">{errors.fechaReserva}</div>
-                            ) : null}
-                        </Form.Group>
+      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+        {({ handleSubmit, touched, errors }) => (
+          <Form onSubmit={handleSubmit} className={styles.loginForm}>
+            {/* BARBERO */}
+            <Form.Group controlId="barbero">
+              <Form.Label>Barbero</Form.Label>
+              <Field
+                as="select"
+                name="barbero"
+                className={`form-control ${touched.barbero && errors.barbero ? "is-invalid" : ""}`}
+                disabled={cargandoBarberos}
+              >
+                <option value="">
+                  {cargandoBarberos ? t("cargando") : "Seleccione el barbero"}
+                </option>
 
-                        <Button variant="primary" type="submit" className={styles.submitButton}>
-                            {t("reserva.submit_button")}
-                        </Button>
-                    </Form>
-                )}
-            </Formik>
-        </div>
-    );
+                {/* Ajustá las props según tu API: id/nombre o userId/fullName */}
+                {barberos?.map((b) => (
+                  <option key={b._id ?? b.id} value={b._id ?? b.id}>
+                    {b.name}
+                  </option>
+                ))}
+              </Field>
+              {touched.barbero && errors.barbero ? (
+                <div className="invalid-feedback">{errors.barbero}</div>
+              ) : null}
+            </Form.Group>
 
+            {/* SERVICIO */}
+            <Form.Group controlId="servicio">
+              <Form.Label>Servicio</Form.Label>
+              <Field
+                as="select"
+                name="servicio"
+                className={`form-control ${touched.servicio && errors.servicio ? "is-invalid" : ""}`}
+              >
+                <option value="">Seleccione el servicio</option>
+                <option value="corte">Corte de cabello</option>
+                <option value="afeitado">Afeitado</option>
+              </Field>
+              {touched.servicio && errors.servicio ? (
+                <div className="invalid-feedback">{errors.servicio}</div>
+              ) : null}
+            </Form.Group>
+
+            {/* FECHA */}
+            <Form.Group controlId="fechaReserva">
+              <Form.Label>Fecha</Form.Label>
+              <Field
+                type="date"
+                name="fechaReserva"
+                className={`form-control ${touched.fechaReserva && errors.fechaReserva ? "is-invalid" : ""}`}
+              />
+              {touched.fechaReserva && errors.fechaReserva ? (
+                <div className="invalid-feedback">{errors.fechaReserva}</div>
+              ) : null}
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className={styles.submitButton}>
+              Enviar
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
 };
 
 export default Reserva;
-
-

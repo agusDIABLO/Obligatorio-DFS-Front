@@ -1,32 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { obtenerMisReservasService,
-            crearReservaService,
-            cancelarReservaService,
-            obtenerTodasLasReservasService,
-            modificarFechaReservaService,
-            obtenerReservaPorIdCategory
- } from "../../../services/reservationServices.js";
+import {
+    obtenerMisReservasService,
+    crearReservaService,
+    cancelarReservaService,
+    obtenerTodasLasReservasService,
+    modificarFechaReservaService,
+    obtenerReservaPorIdCategory
+} from "../../../services/reservationServices.js";
 
 
- export const getReservationsSlice = createAsyncThunk(
+export const getReservationsSlice = createAsyncThunk(
     "reservations/user",
-    
+
     async (_, thunkAPI) => {
-    const controller = new AbortController();
-    const { signal } = thunkAPI;
+        const controller = new AbortController();
+        const { signal } = thunkAPI;
 
-    signal.addEventListener("abort", () => controller.abort());
+        signal.addEventListener("abort", () => controller.abort());
 
-    try {
-      const data = await obtenerMisReservasService(controller);
-      return data;
-    } catch (err) {
-      if (err.name === "AbortError") {
-        return thunkAPI.rejectWithValue("Petición cancelada");
-      }
-      return thunkAPI.rejectWithValue("Error al obtener reservas");
+        try {
+            const data = await obtenerMisReservasService(controller);
+            return data;
+        } catch (err) {
+            if (err.name === "AbortError") {
+                return thunkAPI.rejectWithValue("Petición cancelada");
+            }
+            return thunkAPI.rejectWithValue("Error al obtener reservas");
+        }
     }
-  }
 );
 
 export const createReservationSlice = createAsyncThunk(
@@ -61,7 +62,7 @@ export const getAllReservationsSlice = createAsyncThunk(
             return data;
         } catch (err) {
             return thunkAPI.rejectWithValue("Error al obtener todas las reservas");
-        }   
+        }
     }
 );
 
@@ -79,13 +80,13 @@ export const modifyReservationDateSlice = createAsyncThunk(
 
 export const getReservationsByCategorySlice = createAsyncThunk(
     "reservations/byCategory",
-    async (categoryId, thunkAPI) => {   
+    async (categoryId, thunkAPI) => {
         try {
             const data = await obtenerReservaPorIdCategory(categoryId);
             return data;
         } catch (err) {
             return thunkAPI.rejectWithValue("Error al obtener reservas por categoría");
-        }   
+        }
     }
 );
 

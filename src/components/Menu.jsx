@@ -9,7 +9,6 @@ const Menu = () => {
 
     useEffect(() => {
     const storedId = localStorage.getItem("userId");
-      console.log("userId del localStorage:", storedId);
     if (storedId) {
       setUserId(storedId);
     }
@@ -22,7 +21,6 @@ const Menu = () => {
         try {
             const response = await obtenerUsuarioByIdService(userId);
             setUserPlan(response.User.plan);
-            console.log('plan', response)
         }
         catch (error) {
             console.error("Error al obtener el usuario:", error);

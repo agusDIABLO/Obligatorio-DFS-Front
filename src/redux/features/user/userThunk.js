@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { obtenerUsuariosService } from "../../../services/userServices.js";
+import { obtenerUsuariosService, obtenerUsuariosPorRolService } from "../../../services/userServices.js";
 
 export const getUsersSlice = createAsyncThunk(
   "users/getUsersSlice",
@@ -8,20 +8,31 @@ export const getUsersSlice = createAsyncThunk(
     const { signal } = thunkAPI;
 
     signal.addEventListener("abort", () => {
-      console.log("Petición cancelada: users");
       controller.abort();
     });
 
     try {
-      console.log("Iniciando fetch de usuarios...");
       const result = await obtenerUsuariosService(controller);
-      console.log("Usuarios obtenidos:", result);
-      return result; // devuelve el array de usuarios
+      return result;
     } catch (err) {
       if (err.name === "AbortError") {
         return thunkAPI.rejectWithValue("Petición cancelada");
       }
       return thunkAPI.rejectWithValue("Error al obtener usuarios");
+    }
+  }
+);
+
+export const getUsersByRole = createAsyncThunk(
+  "users/getUsersByRole",
+  async (rol, thunkAPI) => {
+    try {
+      const data = await obtenerUsuariosPorRolService(rol);
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.Users)) return data.Users;
+      return data || [];
+    } catch (err) {
+      return thunkAPI.rejectWithValue("Error al obtener usuarios por rol");
     }
   }
 );

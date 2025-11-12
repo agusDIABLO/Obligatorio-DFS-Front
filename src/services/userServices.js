@@ -46,3 +46,14 @@ export const obtenerUsuarioByIdService = async (userId) => {
             throw error;
         });
 }
+
+export const obtenerUsuariosPorRolService = async (role) => {
+    return api.get(`users/roles/${role}`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            console.error('Error al obtener los usuarios por rol:', error);
+            throw error;
+        });
+};
