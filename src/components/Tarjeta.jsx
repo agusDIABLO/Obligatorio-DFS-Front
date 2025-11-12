@@ -6,8 +6,12 @@ import { borrarReserva, updateReserva } from "../redux/features/reserva/reservaS
 import { cancelarReservaService } from "../services/reservationServices";
 import { useCustomHookUser } from "../utils/useCustomHookUser"; //REVISAR
 import { useCustomHookService } from "../utils/useCustomeHookService";
+import { useNavigate } from "react-router-dom";
+
+
 
 const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const transformUserIdToName = useCustomHookUser();
   const transformServiceIdToName = useCustomHookService();
@@ -33,7 +37,7 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status }
 
   // ✏️ Editar fecha de la reserva
   const handleEdit = () => {
-    navigate(`/editarReserva/${id}`);
+    navigate(`/editarTarjeta/${id}`);
   };
 
 
@@ -69,8 +73,8 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status }
         >
           <FaTrash color="red" size={20} />
         </button>
-
-        {/* ✏️ Editar o 💾 Guardar */}
+          {" "}
+        {/* ✏️ Editar  */}
          <button
           onClick={handleEdit}
           style={{

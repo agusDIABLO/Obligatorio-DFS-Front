@@ -6,7 +6,6 @@ import Dashboard from "../components/Dashboard";
 import Contenido from "../components/Contenido";
 import Reserva from "../components/Reserva";
 import Grafico from "../components/Grafico";
-import EditarReserva from "../components/EditarReserva";
 import App from "../App";
 import EditarTarjeta from "../components/EditarTarjeta";
 
@@ -21,7 +20,7 @@ const Rutas = () => {
           <Route index element={<Contenido />} />
           <Route path="/reserva" element={<Reserva />} />
           <Route path="/grafico" element={<Grafico />} />
-          <Route path="/editarReserva/:id" element={<EditarTarjeta />} />      
+          <Route path="/editarTarjeta/:id" element={<EditarTarjeta />} />      
         </Route>
         <Route path="*" element={<Navigate to="/" replace></Navigate>}></Route>
       </Routes>

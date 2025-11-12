@@ -34,6 +34,7 @@ export const obtenerReservaByIdService = async (reservationId) => {
             console.error('Error al obtener la reserva por ID:', error);
             throw error;
         });
+        
 }
 
 

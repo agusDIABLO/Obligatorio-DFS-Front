@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { updateReserva } from "../redux/features/reserva/reservaSlice";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice";
 
+
 const EditarTarjeta = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,8 +18,9 @@ const EditarTarjeta = () => {
     const fetchReserva = async () => {
       try {
         const data = await obtenerReservaByIdService(id);
+        console.log('data', data)
         setReserva(data);
-        setNuevaFecha(data.date?.split("T")[0]); // formato yyyy-MM-dd
+        setNuevaFecha(data.reservationDateTime?.split("T")[0]); // formato yyyy-MM-dd
       } catch (error) {
         console.error("Error al obtener la reserva:", error);
       }
@@ -29,8 +31,8 @@ const EditarTarjeta = () => {
   const handleSave = async () => {
     try {
       dispatch(startLoading());
-      await modificarFechaReservaService(id, { date: nuevaFecha });
-      dispatch(updateReserva({ _id: id, date: nuevaFecha }));
+      await modificarFechaReservaService(id, { reservationDateTime: nuevaFecha });
+      dispatch(updateReserva({ _id: id, reservationDateTime: nuevaFecha }));
       alert("Reserva actualizada correctamente");
       navigate("/reservas");
     } catch (error) {
@@ -40,7 +42,8 @@ const EditarTarjeta = () => {
       dispatch(stopLoading());
     }
   };
-
+  
+  console.log('reserva luego del state', reserva)
   if (!reserva) return <p>Cargando reserva...</p>;
 
   return (
