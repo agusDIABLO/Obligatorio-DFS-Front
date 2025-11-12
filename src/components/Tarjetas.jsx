@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Tarjeta from "./Tarjeta";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Table } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
+import { getReservationsSlice } from "../redux/features/reserva/reservaThunk";
 
 const Tarjetas = () => {
   // seleccionar la lista de reservas (el slice guarda { list, loading, error })
+  const dispatch = useDispatch();
+
+
   const reservas = useSelector((state) => state.reservasSlice.list || []);
   console.log('reservas', reservas)
+
   const [fechaFiltro, setFechaFiltro] = useState("");
   const [listaFiltrada, setListaFiltrada] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
 
 
-
+  useEffect(() => {
+    dispatch(getReservationsSlice());
+  }, [dispatch]);
 
   useEffect(() => {
     const fechaURL = searchParam.get("fecha");
@@ -30,6 +37,7 @@ const Tarjetas = () => {
 
   const aplicarFiltro = (fecha) => {
     let auxList = reservas;
+    console.log('reservas en el filtro', reservas)
     if (fecha) {
       
       auxList = reservas.filter((r) => r.fechaReserva == fecha);

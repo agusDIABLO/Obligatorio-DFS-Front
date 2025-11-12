@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { obtenerUsuarioByIdService, updatePlanUsuarioService } from "../services/userServices";
+import { toast } from "react-toastify";
+
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -47,6 +49,7 @@ const Menu = () => {
         setUserPlan(nuevoPlan);
         console.log("Plan actualizado a:", nuevoPlan);
         toast.info(`Plan actualizado a: ${nuevoPlan}`);
+        console.log('result', result)
     } catch (error) {
         console.error("Error al actualizar el plan:", error);
         toast.error(`Error al actualizar el plan: ${error.message}`);
