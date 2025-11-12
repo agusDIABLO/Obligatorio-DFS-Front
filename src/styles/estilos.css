@@ -42,3 +42,41 @@
     transform: rotate(360deg);
   }
 }
+
+/* styles.css */
+.btn-link {
+  background-color: #3b82f6; /* azul */
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease-in-out;
+}
+
+.btn-link:hover {
+  background-color: #2563eb;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn-filtrar{
+
+  all: unset;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #10b981; /* verde */
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease-in-out;
+}
+
+
+.separar10pxArriba {
+  margin-top: 10px;
+}

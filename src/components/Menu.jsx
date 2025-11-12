@@ -60,11 +60,11 @@ const Menu = () => {
       <h2>Barberia</h2>
     <span className="text-sm">Plan actual: <b>{userPlan || "Cargando..."}</b></span>
       <nav>
-        <Link to="/">Home</Link> | <Link to="/login">Logout</Link>|{" "}
-        <Link to="/reserva">Reservar</Link> |{" "}
-        <Link to="/grafico">Gráfico</Link> |{" "}
-        <button onClick={handleLogout}>Logout</button>
-        <button onClick={handleChangePlan} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition">Cambiar plan</button>
+        <Link to="/" className="btn-link" >Home</Link> {" "}
+        <Link to="/reserva" className="btn-link font-semibold">Reservar</Link> {" "}
+        <Link to="/grafico" className="btn-link">Gráfico</Link> {" "}
+        <button onClick={handleLogout} className="btn-link"><strong>Logout</strong></button>{" "}
+        <button onClick={handleChangePlan} className="btn-link"><strong>Cambiar plan</strong></button>
       </nav>
     </div>
   );

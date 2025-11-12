@@ -4,10 +4,10 @@ import { FaTrash, FaPencilAlt, FaSave, FaTimes } from "react-icons/fa";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice";
 import { borrarReserva, updateReserva } from "../redux/features/reserva/reservaSlice";
 import { cancelarReservaService } from "../services/reservationServices";
-import { useCustomHookUser } from "../utils/useCustomHookUser";
+import { useCustomHookUser } from "../utils/useCustomHookUser"; //REVISAR
 import { useCustomHookService } from "../utils/useCustomeHookService";
 
-const TarjetaReserva = ({ _id: id, userId, serviceId, date, status }) => {
+const TarjetaReserva = ({ _id: id, barberId, serviceId, date, status }) => {
   const dispatch = useDispatch();
   const transformUserIdToName = useCustomHookUser();
   const transformServiceIdToName = useCustomHookService();
@@ -40,8 +40,7 @@ const TarjetaReserva = ({ _id: id, userId, serviceId, date, status }) => {
 
   return (
     <tr>
-      <td>{id}</td>
-      <td>{transformUserIdToName(userId) ?? userId}</td>
+      <td>{transformUserIdToName(barberId._id) ?? barberId._id}</td>
       <td>{transformServiceIdToName(serviceId) ?? serviceId}</td>
       <td>{new Date(date).toLocaleString()}</td>
       <td>

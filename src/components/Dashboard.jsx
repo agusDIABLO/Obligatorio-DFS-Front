@@ -20,8 +20,11 @@ const Dashboard = () => {
 
     let cargaUsuarios;
 
-    if (estaLogueado && tienePermiso) {
+    if (estaLogueado ) {
       cargaInicialReservas();
+    }
+    
+    if (estaLogueado && tienePermiso) { 
       cargaUsuarios = cargaInicialUsuarios();
     }
 
