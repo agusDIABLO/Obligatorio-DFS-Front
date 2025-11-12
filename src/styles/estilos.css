@@ -80,3 +80,23 @@ button {
 .separar10pxArriba {
   margin-top: 10px;
 }
+
+.btn-cambios{
+
+    background-color: #aabb17; 
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease-in-out;
+}
+
+.btn-cancel{
+
+    background-color: #9e220c; 
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease-in-out;
+}

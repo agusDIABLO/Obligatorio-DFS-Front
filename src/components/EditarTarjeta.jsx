@@ -34,7 +34,7 @@ const EditarTarjeta = () => {
       await modificarFechaReservaService(id, { reservationDateTime: nuevaFecha });
       dispatch(updateReserva({ _id: id, reservationDateTime: nuevaFecha }));
       alert("Reserva actualizada correctamente");
-      navigate("/reservas");
+      navigate("/");
     } catch (error) {
       console.error("Error al actualizar la reserva:", error);
       alert("Error al actualizar la reserva");
@@ -47,11 +47,10 @@ const EditarTarjeta = () => {
   if (!reserva) return <p>Cargando reserva...</p>;
 
   return (
-    <div className="p-4 max-w-md mx-auto border rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-4">Editar fecha de reserva</h2>
+    <div >
+      <h2 >Editar fecha de reserva</h2>
 
-      <p><b>Cliente:</b> {reserva.userId}</p>
-      <p><b>Servicio:</b> {reserva.serviceId}</p>
+      <p><b>Servicio:</b> {reserva.serviceId.name}</p>
       <p><b>Estado:</b> {reserva.status}</p>
 
       <div className="mt-4">
@@ -67,16 +66,16 @@ const EditarTarjeta = () => {
         />
       </div>
 
-      <div className="mt-4 flex gap-3">
+      <div >
         <button
           onClick={handleSave}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+          className="btn-cambios separar10pxArriba"
         >
           Guardar cambios
         </button>
         <button
           onClick={() => navigate("/reservas")}
-          className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded"
+          className="btn-cancel"
         >
           Cancelar
         </button>
