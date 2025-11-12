@@ -7,7 +7,7 @@ import { cancelarReservaService } from "../services/reservationServices";
 import { useCustomHookUser } from "../utils/useCustomHookUser"; //REVISAR
 import { useCustomHookService } from "../utils/useCustomeHookService";
 
-const TarjetaReserva = ({ _id: id, barberId, serviceId, date, status }) => {
+const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status }) => {
   const dispatch = useDispatch();
   const transformUserIdToName = useCustomHookUser();
   const transformServiceIdToName = useCustomHookService();
@@ -40,9 +40,12 @@ const TarjetaReserva = ({ _id: id, barberId, serviceId, date, status }) => {
 
   return (
     <tr>
-      <td>{transformUserIdToName(barberId._id) ?? barberId._id}</td>
-      <td>{transformServiceIdToName(serviceId) ?? serviceId}</td>
-      <td>{new Date(date).toLocaleString()}</td>
+
+      <td>{customerId?.name ?? "Cliente desconocido"}</td>
+      <td>{new Date(reservationDateTime).toLocaleString()}</td>
+      <td>{serviceId?.name ?? "Servicio no encontrado"}</td>
+
+   
       <td>
         <b
           style={{
@@ -85,4 +88,4 @@ const TarjetaReserva = ({ _id: id, barberId, serviceId, date, status }) => {
   );
 };
 
-export default TarjetaReserva;
+export default Tarjeta;
