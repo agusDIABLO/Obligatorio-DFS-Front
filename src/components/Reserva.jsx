@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import SubirImagen from "./SubirImagen";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Formik, Field } from "formik";
@@ -9,19 +10,28 @@ import { jwtDecode } from "jwt-decode";
 import styles from "./login/Login.module.css";
 import { getReservaSchema } from "../schemas/reservaSchemas";
 import { crearReservaService } from "../services/reservationServices";
+import { crearReserva } from "../redux/features/reserva/reservaSlice";
 import { getUsersByRole } from "../redux/features/user/userThunk";
 import moment from "moment"; // <-- lo estás usando en onSubmit
+
+
 
 const initialValues = {
   barbero: "",
   servicio: "",
-  fechaReserva: ""
+  fechaReserva: "",
+  imgUrl: ""
 };
 
 const Reserva = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const subirRef = useRef();
+
+  const [imgUrl, setImgUrl] = useState("");
+
 
   const { listByRole: barberos, loading: cargandoBarberos, error } = useSelector(
     (state) => state.userSlice
@@ -38,8 +48,23 @@ const Reserva = () => {
 
   const onSubmit = async (values, actions) => {
     try {
-      const { barbero, servicio, fechaReserva } = values;
-      const { token } = await crearReservaService(barbero, servicio, fechaReserva);
+      const { barbero, servicio, fechaReserva, imgUrl } = values;
+
+      const nuevaReserva = {
+        barberId: barbero,
+        serviceId: servicio,
+        reservationDateTime: fechaReserva,
+        imgUrl: imgUrl
+      };
+
+      const payload = await crearReservaService(nuevaReserva);
+      
+      // 👇 Guardamos en Redux
+      dispatch(crearReserva(payload));
+
+      toast.success(t("reserva.success_message"));
+      actions.resetForm();
+      //navigate("/");
 
       const decoded = jwtDecode(token);
       const { exp, id: userId, role } = decoded;
@@ -126,7 +151,9 @@ const Reserva = () => {
                 <div className="invalid-feedback">{errors.fechaReserva}</div>
               ) : null}
             </Form.Group>
-
+          <Form.Group controlId="imagen">
+            <SubirImagen handleImgURL={(url) => setImgUrl(url)} ref={subirRef} />
+          </Form.Group>
             <Button variant="primary" type="submit" className={styles.submitButton}>
               Enviar
             </Button>

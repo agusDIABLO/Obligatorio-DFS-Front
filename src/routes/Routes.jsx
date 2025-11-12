@@ -8,6 +8,7 @@ import Reserva from "../components/Reserva";
 import Grafico from "../components/Grafico";
 import App from "../App";
 import EditarTarjeta from "../components/EditarTarjeta";
+import SubirImagen from "../components/SubirImagen";
 
 
 const Rutas = () => {
@@ -21,6 +22,7 @@ const Rutas = () => {
           <Route path="/reserva" element={<Reserva />} />
           <Route path="/grafico" element={<Grafico />} />
           <Route path="/editarTarjeta/:id" element={<EditarTarjeta />} />      
+          <Route path="/subirImagen" element={<SubirImagen />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace></Navigate>}></Route>
       </Routes>

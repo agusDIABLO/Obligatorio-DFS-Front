@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { esTokenValido } from "../utils/tokenUtils.js";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice.js";
-import { obtenerMisReservasService } from "../services/reservationServices.js";
+import { obtenerMisReservasService, obtenerTodasLasReservasService } from "../services/reservationServices.js";
 import { cargarReservasIniciales } from "../redux/features/reserva/reservaSlice.js";
 import { getUsersSlice } from "../redux/features/user/userThunk.js";
 
@@ -26,6 +26,7 @@ const Dashboard = () => {
     
     if (estaLogueado && tienePermiso) { 
       cargaUsuarios = cargaInicialUsuarios();
+      cargaInicialAllReservas();
     }
 
     setValidandoLogin(false);
@@ -56,6 +57,18 @@ const Dashboard = () => {
     dispatch(stopLoading());
     return salida;
   };
+
+  const cargaInicialAllReservas = async () => {
+    try {
+      dispatch(startLoading());
+      const reservasAll = await obtenerTodasLasReservasService();
+      dispatch(cargarReservasIniciales(reservasAll));
+      dispatch(stopLoading());
+    } catch (error) {
+      console.log("Error al cargar todas las reservas:", error);
+    }
+  };
+
 
   const cargaInicialReservas = async () => {
     try {

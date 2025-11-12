@@ -24,6 +24,12 @@ const reservasSlice = createSlice({
       // mantener la forma del slice: { list, loading, error }
       state.list = reservasIniciales;
     },
+    
+    
+    crearReserva: (state, action) => {
+      const nuevaReserva = action.payload;
+      state.list.push(nuevaReserva);
+},
 
     borrarReserva: (state, action) => {
       const reservaId = action.payload;
@@ -81,5 +87,5 @@ const reservasSlice = createSlice({
   },
 });
 
-export const { cargarReservasIniciales, updateReserva, borrarReserva } = reservasSlice.actions;
+export const { cargarReservasIniciales, updateReserva, borrarReserva, crearReserva } = reservasSlice.actions;
 export default reservasSlice.reducer;

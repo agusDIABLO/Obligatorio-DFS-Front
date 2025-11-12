@@ -55,14 +55,14 @@ const Tarjetas = () => {
 
   return (
     <>
-      <div style={{ marginBottom: "1rem" }} class="separar10pxArriba">
+      <div style={{ marginBottom: "1rem" }} className="separar10pxArriba">
         <input
           type="date"
           value={fechaFiltro}
           onChange={handleChangeFecha}
           style={{ marginRight: "10px" }}
         />
-        <button onClick={handleBuscar} class="btn-filtrar">Filtrar</button>
+        <button onClick={handleBuscar} className="btn-filtrar">Filtrar</button>
       </div>
 
       <Table striped bordered hover responsive>
@@ -78,7 +78,6 @@ const Tarjetas = () => {
         </thead>
         <tbody>
           {listaFiltrada.map((r) => (
-            
             <Tarjeta key={r._id} {...r} />
           ))}
         </tbody>

@@ -1,10 +1,38 @@
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const Grafico = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { position: "bottom" },
+      title: { display: true, text: nombreGrafica || "Gráfica" },
+    },
+  };
 
+  const data = {
+    labels: etiquetas,
+    datasets: [
+      {
+        label: nombreDatos || "Datos",
+        data: datos,
+        backgroundColor: "rgba(0, 0, 255, 0.7)",
+      },
+    ],
+  };
 
-
-const Grafico = () => {
-
+  return <Bar options={options} data={data} />;
 };
 
 export default Grafico;
