@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 
 
 const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, imgUrl }) => {
-   console.log("🖼️ imgUrl:", imgUrl);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const transformUserIdToName = useCustomHookUser();
@@ -21,7 +20,6 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
   const [editedStatus, setEditedStatus] = useState(status);
   const [loading, setLoading] = useState(false);
 
-  // 🗑 Eliminar reserva
   const handleDelete = async () => {
     if (!window.confirm("¿Seguro que quieres cancelar esta reserva?")) return;
     try {
@@ -31,18 +29,15 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
       dispatch(borrarReserva(id));
     } catch (error) {
       console.error("Error al eliminar la reserva:", error);
-      alert("No se pudo eliminar la reserva");
+      toast.error("No se pudo eliminar la reserva");
     } finally {
       dispatch(stopLoading());
     }
   };
 
-  // ✏️ Editar fecha de la reserva
   const handleEdit = () => {
     navigate(`/editarTarjeta/${id}`);
   };
-
-
 
   return (
     <tr>
@@ -50,8 +45,6 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
       <td>{customerId?.name ?? "Cliente desconocido"}</td>
       <td>{new Date(reservationDateTime).toLocaleString()}</td>
       <td>{serviceId?.name ?? "Servicio no encontrado"}</td>
-
-   
       <td>
         <b
           style={{
@@ -59,8 +52,8 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
               status === "completed"
                 ? "green"
                 : status === "cancelled"
-                ? "red"
-                : "orange",
+                  ? "red"
+                  : "orange",
           }}
         >
           {status}
@@ -75,9 +68,9 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
         >
           <FaTrash color="red" size={20} />
         </button>
-          {" "}
+        {" "}
         {/* ✏️ Editar  */}
-         <button
+        <button
           onClick={handleEdit}
           style={{
             background: "none",
@@ -90,7 +83,7 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
           <FaPencilAlt color="blue" size={20} />
         </button>
       </td>
-        <td>
+      <td>
         {imgUrl && (
           <div style={{ marginTop: "10px" }}>
             <img

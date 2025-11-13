@@ -7,17 +7,12 @@ import { getReservationsSlice } from "../redux/features/reserva/reservaThunk";
 
 
 const Tarjetas = () => {
-  // seleccionar la lista de reservas (el slice guarda { list, loading, error })
   const dispatch = useDispatch();
-
-
   const reservas = useSelector((state) => state.reservasSlice.list || []);
-  console.log('reservas', reservas)
 
   const [fechaFiltro, setFechaFiltro] = useState("");
   const [listaFiltrada, setListaFiltrada] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
-
 
   useEffect(() => {
     dispatch(getReservationsSlice());
@@ -38,9 +33,7 @@ const Tarjetas = () => {
 
   const aplicarFiltro = (fecha) => {
     let auxList = reservas;
-    console.log('reservas en el filtro', reservas)
-    if (fecha) {
-      
+    if (fecha) {      
       auxList = reservas.filter((r) => r.fechaReserva == fecha);
       setSearchParam({ fecha });
     } else {
@@ -49,9 +42,7 @@ const Tarjetas = () => {
     setListaFiltrada(auxList);
   };
 
-  // loguear sólo cuando cambie la lista filtrada para evitar logs por cada render
   useEffect(() => {
-    console.log('listaFiltrada', listaFiltrada);
   }, [listaFiltrada]);
 
   return (

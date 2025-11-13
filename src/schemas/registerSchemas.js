@@ -12,7 +12,6 @@ export const registerSchema = Yup.object({
 })
 
 export const getRegisterSchema = (t) => {
-    console.log('Entro en getRegisterSchema')
     return Yup.object({
         email: Yup.string().min(3, t("validations.min", { min: 3 })).matches(emailReg, t("validations.email_invalid")).required(t("validations.email_required")),
         password: Yup.string().min(6, t("validations.min", { min: 6 })).required(t("validations.password_required")),

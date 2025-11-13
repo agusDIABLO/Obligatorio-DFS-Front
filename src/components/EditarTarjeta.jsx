@@ -19,7 +19,6 @@ const EditarTarjeta = () => {
     const fetchReserva = async () => {
       try {
         const data = await obtenerReservaByIdService(id);
-        console.log('data', data)
         setReserva(data);
         setNuevaFecha(data.reservationDateTime?.split("T")[0]); // formato yyyy-MM-dd
       } catch (error) {

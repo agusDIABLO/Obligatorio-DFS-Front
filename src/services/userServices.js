@@ -26,11 +26,8 @@ export const obtenerUsuariosService = async () => {
 }
 
 export const updatePlanUsuarioService = async (userId, nuevoPlan) => {
-    console.log('userId', userId)
-    console.log('nuevoPlan', nuevoPlan)
     return api.patch(`/users/${userId}/plan`, { plan: nuevoPlan })    
         .then(response => {
-            console.log('Plan actualizado:', response.data);
             return response.data;
         })
         .catch(error => {

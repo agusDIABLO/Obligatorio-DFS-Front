@@ -21,20 +21,16 @@ const Register = () => {
     const { t, i18n } = useTranslation();
     
     const validationSchema = useMemo(() => {
-        console.log("cambio el memo");
         return getRegisterSchema(t);
     }, [i18n.language]);
 
     const navigate = useNavigate();
 
     const onSubmit = async (values, actions) => {
-        console.log('values', values);
         try {
             const { name, email,phone, password } = values;
             const {token} = await registerApiObligatorio(name, email, phone, password);
-            console.log('token', token);
 
-            // Guardar token e info en localStorage (como en login)
             const decoded = jwtDecode(token);
             const { exp, iat, id: userId, role} = decoded;
 

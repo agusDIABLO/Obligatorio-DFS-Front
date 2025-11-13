@@ -41,7 +41,6 @@ export const obtenerReservaByIdService = async (reservationId) => {
 export const crearReservaService = async (nuevaReserva) => {
     return api.post('/reservations', nuevaReserva)
         .then(response => {
-            console.log('Tarea agregada:', response.data)
             return response.data;
         })
         .catch(error => {
@@ -54,7 +53,6 @@ export const crearReservaService = async (nuevaReserva) => {
 export const cancelarReservaService = async (reservationId) => {
     return api.delete(`/reservations/${reservationId}`)
         .then(response => {
-            console.log('Reserva cancelada:', response.data);
             return response.data;
         })
         .catch(error => {
@@ -76,7 +74,6 @@ export const obtenerTodasLasReservasService = async () => {
 export const modificarFechaReservaService = async (reservationId, reservationDateTime) => {
     return api.patch(`/reservations/${reservationId}`, reservationDateTime)
         .then(response => {
-            console.log('Reserva modificada:', response.data);
             return response.data;
         })
         .catch(error => {

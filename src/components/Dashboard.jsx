@@ -6,7 +6,7 @@ import { esTokenValido } from "../utils/tokenUtils.js";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice.js";
 import { obtenerMisReservasService, obtenerTodasLasReservasService } from "../services/reservationServices.js";
 import { cargarReservasIniciales } from "../redux/features/reserva/reservaSlice.js";
-import {getAllServiciosService} from "../services/serviceService.js";
+import { getAllServiciosService } from "../services/serviceService.js";
 import { setServicios } from "../redux/features/service/servicesSlice.js";
 import { getUsersSlice } from "../redux/features/user/userThunk.js";
 
@@ -22,14 +22,12 @@ const Dashboard = () => {
 
     let cargaUsuarios;
 
-    if (estaLogueado ) {
+    if (estaLogueado) {
       cargaInicialReservas();
       cargaInicialServicios();
-      console.log('cargaInicialServicios', cargaInicialServicios)
-
     }
-    
-    if (estaLogueado && tienePermiso) { 
+
+    if (estaLogueado && tienePermiso) {
       cargaInicialUsuarios();
       cargaInicialAllReservas();
     }
@@ -67,13 +65,12 @@ const Dashboard = () => {
     try {
       dispatch(startLoading());
       const serviciosIniciales = await getAllServiciosService();
-      console.log('serviciosIniciales', serviciosIniciales);
       dispatch(setServicios(serviciosIniciales));
       dispatch(stopLoading());
     } catch (error) {
       console.log("Error al cargar los servicios:", error);
     }
-  }; 
+  };
 
   const cargaInicialAllReservas = async () => {
     try {

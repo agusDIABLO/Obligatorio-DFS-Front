@@ -14,7 +14,6 @@ export const registerApiObligatorio = async (name, email, phone, password) => {
             }   
         );
         const data = response.data;
-        console.log('data registerApiObligatorio', data)
         return data;
 
     } catch (error) {

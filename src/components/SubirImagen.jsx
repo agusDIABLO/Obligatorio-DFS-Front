@@ -33,7 +33,6 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     if (!file) return;
     setPreview(null);
     const base64 = await fileToBase64(file);
-    console.log("base64", base64);
     setPreview(base64);
   };
 
@@ -43,11 +42,9 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     setLoading(true);
     try {
       const result = await uploadImage(preview);
-      console.log("Resultado Cloudinary:", result); 
       setImageData(result);
       toast.success("Imagen subida con éxito");
       handleImgURL(result);
-      console.log('result', result)
     } catch (err) {
       alert("Error al subir la imagen: " + err.message);
     } finally {
@@ -69,13 +66,10 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
       setLoading(false);
     }
   };
-
-
   
   return (
     <div style={{ maxWidth: 400, margin: "2rem auto", textAlign: "center" }}>
       <h2>Seleccione una imagen</h2>
-
       <input
         type="file"
         id={botonId}

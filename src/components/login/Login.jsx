@@ -20,38 +20,29 @@ const Login = () => {
     const { t, i18n } = useTranslation();
 
   const validationSchema = useMemo(() => {
-    console.log("cambio el memo");
     return getLoginSchema(t);
   }, [i18n.language]);
 
     const navigate = useNavigate();
 
     const onSubmit = async (values, actions) => {
-        console.log('values', values);
         try {
             const {email, password} = values;
             const {token} = await loginApiObligatorio(email, password);
-            console.log('token', token);
 
             let localStorage = window.localStorage;
 
             const decodedToken = jwtDecode(token);
-            console.log('decodedToken', decodedToken);
 
             const { exp, iat, id: userId, role } = decodedToken;
-            console.log("decodificado ", exp, userId, role);
 
             const expirationTime = moment.unix(exp);
             const createTime = moment.unix(iat);
-
-            console.log("createTime", createTime);
 
             const now = moment();
 
             const diffMinutes = expirationTime.diff(now, "minutes");
             const diffSeconds = expirationTime.diff(now, "seconds");
-
-            console.log(diffMinutes, diffSeconds);
 
             localStorage.setItem("token", token);
             localStorage.setItem("userId", userId);

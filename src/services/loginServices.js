@@ -14,7 +14,6 @@ export const loginApiObligatorio = async (email, password) => {
             }
         );
         const data = response.data;
-        console.log('data loginApiObligatorio', data)
         return data;
 
     } catch (error) {   
