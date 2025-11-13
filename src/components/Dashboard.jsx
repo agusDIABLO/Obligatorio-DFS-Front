@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "./Menu.jsx";
 import { Navigate, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import { getAllServiciosService } from "../services/serviceService.js";
 import { setServicios } from "../redux/features/service/servicesSlice.js";
 import { getUsersSlice } from "../redux/features/user/userThunk.js";
 
+
 const Dashboard = () => {
   const [logueado, setLogueado] = useState(false);
   const [validandoLogin, setValidandoLogin] = useState(true);
@@ -18,8 +19,6 @@ const Dashboard = () => {
   useEffect(() => {
     const estaLogueado = validarLogueado();
     const tienePermiso = validarRole();
-
-
     let cargaUsuarios;
 
     if (estaLogueado) {
@@ -82,7 +81,6 @@ const Dashboard = () => {
       console.log("Error al cargar todas las reservas:", error);
     }
   };
-
 
   const cargaInicialReservas = async () => {
     try {

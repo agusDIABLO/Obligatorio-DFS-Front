@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { obtenerUsuarioByIdService, updatePlanUsuarioService } from "../services/userServices";
 import { toast } from "react-toastify";

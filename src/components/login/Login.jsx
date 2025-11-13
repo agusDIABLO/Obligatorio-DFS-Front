@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -12,23 +12,23 @@ import moment from "moment";
 
 
 const initialValues = {
-  email: "",
-  password: ""
+    email: "",
+    password: ""
 };
 
-const Login = () => {   
+const Login = () => {
     const { t, i18n } = useTranslation();
 
-  const validationSchema = useMemo(() => {
-    return getLoginSchema(t);
-  }, [i18n.language]);
+    const validationSchema = useMemo(() => {
+        return getLoginSchema(t);
+    }, [i18n.language]);
 
     const navigate = useNavigate();
 
     const onSubmit = async (values, actions) => {
         try {
-            const {email, password} = values;
-            const {token} = await loginApiObligatorio(email, password);
+            const { email, password } = values;
+            const { token } = await loginApiObligatorio(email, password);
 
             let localStorage = window.localStorage;
 
@@ -50,12 +50,12 @@ const Login = () => {
 
             toast.info(`Bienvenido ${email}!`);
 
-            actions.resetForm(); //resetea el formulario
+            actions.resetForm();
 
-             navigate("/");
-            } catch (error) {
-              console.log('error en login', error);
-              toast.error(`Error: ${error.message}`);
+            navigate("/");
+        } catch (error) {
+            console.log('error en login', error);
+            toast.error(`Error: ${error.message}`);
         }
     };
 

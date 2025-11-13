@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,13 +9,13 @@ import styles from "./login/Login.module.css";
 import { getRegisterSchema } from "../schemas/registerSchemas";
 import { registerApiObligatorio } from "../services/registerService";
 
+
 const initialValues = {
     email: "",
     password: "",
     name: "",
     phone: ""
 };
-
 
 const Register = () => {
     const { t, i18n } = useTranslation();
@@ -41,22 +41,19 @@ const Register = () => {
             localStorage.setItem("token", token);
             localStorage.setItem("userId", userId);
             localStorage.setItem("sessionTime", diffMinutes);
-            localStorage.setItem("role", role); // Asumimos rol user al registrarse
+            localStorage.setItem("role", role);
 
-
-            toast.success(t("register.success_message"));
+            toast.success(t("Registro exitoso! Bienvenido ") + name);
             actions.resetForm();
             navigate("/");
         } catch (error) {
             console.log('error en registro', error);
             toast.error(error.message);
         }
-        
     };
           return (
     <>
       <h1 className={styles.estiloLogin}>Registro</h1>
-
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

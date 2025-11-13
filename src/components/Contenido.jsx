@@ -1,4 +1,3 @@
-import React from "react";
 import Tarjetas from "./Tarjetas";
 
 const Contenido = () => {

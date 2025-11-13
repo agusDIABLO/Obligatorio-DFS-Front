@@ -1,11 +1,8 @@
-import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { FaTrash, FaPencilAlt, FaSave, FaTimes } from "react-icons/fa";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice";
 import { borrarReserva, updateReserva } from "../redux/features/reserva/reservaSlice";
 import { cancelarReservaService } from "../services/reservationServices";
-import { useCustomHookUser } from "../utils/useCustomHookUser"; //REVISAR
-import { useCustomHookService } from "../utils/useCustomeHookService";
 import { useNavigate } from "react-router-dom";
 
 
@@ -13,13 +10,6 @@ import { useNavigate } from "react-router-dom";
 const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, imgUrl }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const transformUserIdToName = useCustomHookUser();
-  const transformServiceIdToName = useCustomHookService();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedStatus, setEditedStatus] = useState(status);
-  const [loading, setLoading] = useState(false);
-
   const handleDelete = async () => {
     if (!window.confirm("¿Seguro que quieres cancelar esta reserva?")) return;
     try {
@@ -39,7 +29,6 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
     navigate(`/editarTarjeta/${id}`);
   };
 
-  // formatear fecha y hora sin segundos (HH:MM)
   const formattedDateTime = reservationDateTime
     ? new Date(reservationDateTime).toLocaleString(undefined, {
         year: "numeric",
@@ -52,7 +41,6 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
 
   return (
     <tr>
-
       <td>{customerId?.name ?? "Cliente desconocido"}</td>
       <td>{formattedDateTime}</td>
       <td>{serviceId?.name ?? "Servicio no encontrado"}</td>
@@ -71,7 +59,6 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
         </b>
       </td>
       <td>
-        {/* 🗑 Borrar */}
         <button
           onClick={handleDelete}
           style={{ background: "none", border: "none", cursor: "pointer" }}
@@ -80,7 +67,6 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
           <FaTrash color="red" size={20} />
         </button>
         {" "}
-        {/* ✏️ Editar  */}
         <button
           onClick={handleEdit}
           style={{

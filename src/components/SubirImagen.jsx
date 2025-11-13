@@ -1,34 +1,32 @@
-import React, {useId, useState, useImperativeHandle, forwardRef} from "react";
-import BotonSubir from "./BotonSubir";
+import { useId, useState, useImperativeHandle, forwardRef } from "react";
 import { uploadImage, deleteImage } from "../services/imageService";
 import { toast } from "react-toastify";
 
 
 const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
-    const [preview, setPreview] = useState("");
-    const [imageData, setImageData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const botonId = useId();
+  const [preview, setPreview] = useState("");
+  const [imageData, setImageData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const botonId = useId();
 
-    
-    useImperativeHandle(ref, () => ({
-        reset() {
-        setPreview(null);
-        setImageData(null);
+
+  useImperativeHandle(ref, () => ({
+    reset() {
+      setPreview(null);
+      setImageData(null);
     },
   }));
 
-    const fileToBase64 = (file) => {
-
-      return new Promise((resolve, reject) => {
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = (err) => reject(err);  
+      reader.onerror = (err) => reject(err);
     });
   };
 
-    const handleFileChange = async (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setPreview(null);
@@ -36,8 +34,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     setPreview(base64);
   };
 
-
-    const handleUpload = async () => {
+  const handleUpload = async () => {
     if (!preview) return;
     setLoading(true);
     try {
@@ -52,7 +49,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     }
   };
 
-    const handleDelete = async () => {
+  const handleDelete = async () => {
     if (!imageData?.public_id) return;
     setLoading(true);
     try {
@@ -66,7 +63,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
       setLoading(false);
     }
   };
-  
+
   return (
     <div style={{ maxWidth: 400, margin: "2rem auto", textAlign: "center" }}>
       <h2>Seleccione una imagen</h2>
@@ -99,11 +96,11 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
             src={preview}
             alt="preview"
             style={{
-        width: "100%",
-        borderRadius: 10,
-        display: "block",
-        marginBottom: "15px" // 👈 agrega margen abajo
-      }}
+              width: "100%",
+              borderRadius: 10,
+              display: "block",
+              marginBottom: "15px"
+            }}
           />
         </div>
       )}

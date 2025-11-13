@@ -13,7 +13,7 @@ import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Grafico = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
-    console.log("Etiquetas:", etiquetas);
+  console.log("Etiquetas:", etiquetas);
   console.log("Datos:", datos);
   const options = {
     responsive: true,
@@ -39,4 +39,3 @@ const Grafico = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
 
 export default Grafico;
 
-    

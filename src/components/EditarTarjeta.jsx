@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { obtenerReservaByIdService, modificarFechaReservaService } from "../services/reservationServices";
 import { useDispatch } from "react-redux";
@@ -20,7 +20,7 @@ const EditarTarjeta = () => {
       try {
         const data = await obtenerReservaByIdService(id);
         setReserva(data);
-        setNuevaFecha(data.reservationDateTime?.split("T")[0]); // formato yyyy-MM-dd
+        setNuevaFecha(data.reservationDateTime?.split("T")[0]);
       } catch (error) {
         console.error("Error al obtener la reserva:", error);
       }

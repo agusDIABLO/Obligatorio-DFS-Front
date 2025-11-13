@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import SubirImagen from "./SubirImagen";
@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Formik, Field } from "formik";
 import { toast } from "react-toastify";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import styles from "./login/Login.module.css";
 import { getReservaSchema } from "../schemas/reservaSchemas";
 import { crearReservaService } from "../services/reservationServices";
@@ -50,7 +50,6 @@ const Reserva = () => {
       dispatch(getUsersByRole("barber"));
       dispatch(getAllServiciosThunk());
     }
-    // Cargamos los servicios para poblar el select
     dispatch(getAllServiciosThunk());
   }, [dispatch]);
 
@@ -61,10 +60,9 @@ const Reserva = () => {
     try {
       const token = localStorage.getItem("token");
       const { barbero, servicio, fechaReserva, imgUrl: formImgUrl, publicId: formPublicId } = values;
-      const finalImgUrl = formImgUrl || imgUrl; // imgUrl desde el estado local
-      const finalPublicId = formPublicId || publicId; // publicId desde el estado local
+      const finalImgUrl = formImgUrl || imgUrl;
+      const finalPublicId = formPublicId || publicId;
 
-      // Validación adicional: si falta barbero, servicio, fecha o imagen, mostrar toastr y no enviar
       if (!barbero || !servicio || !fechaReserva || !finalImgUrl || !finalPublicId) {
         toast.warn("Debe ingresar barbero, servicio, fecha e imagen antes de enviar");
         return;
@@ -78,11 +76,9 @@ const Reserva = () => {
         publicId: finalPublicId
       };
       const payload = await crearReservaService(nuevaReserva);
-      // 👇 Guardamos en Redux
       dispatch(crearReserva(payload));
 
       actions.resetForm();
-      // Si existe token, actualizamos algunos datos de sesión
       if (token) {
         try {
           const decoded = jwtDecode(token);
@@ -113,13 +109,11 @@ const Reserva = () => {
     <div className={styles.loginContainer}>
       <h2>Realizar Reserva</h2>
 
-      {/* Si hubo error al cargar barberos, mostralo arriba del form (opcional) */}
       {error && <div className="alert alert-danger">{String(error)}</div>}
 
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ handleSubmit, touched, errors, setFieldValue, values }) => (
           <Form onSubmit={handleSubmit} className={styles.loginForm}>
-            {/* BARBERO */}
             <Form.Group controlId="barbero">
               <Form.Label>Barbero</Form.Label>
               <Field
@@ -132,7 +126,6 @@ const Reserva = () => {
                   {cargandoBarberos ? t("cargando") : "Seleccione el barbero"}
                 </option>
 
-                {/* Ajustá las props según tu API: id/nombre o userId/fullName */}
                 {barberos?.map((b) => (
                   <option key={b._id ?? b.id} value={b._id ?? b.id}>
                     {b.name}
@@ -144,7 +137,6 @@ const Reserva = () => {
               ) : null}
             </Form.Group>
 
-            {/* SERVICIO */}
             <Form.Group controlId="servicio">
               <Form.Label>Servicio</Form.Label>
               <Field
@@ -168,7 +160,6 @@ const Reserva = () => {
                 <div className="invalid-feedback">{errors.servicio}</div>
               )}
             </Form.Group>
-            {/* FECHA */}
             <Form.Group controlId="fechaReserva">
               <Form.Label>Fecha</Form.Label>
               <Field
@@ -183,18 +174,13 @@ const Reserva = () => {
             <Form.Group controlId="imagen">
               <SubirImagen
                 handleImgURL={(data) => {
-                  // Actualizamos el estado local (por si lo usás en otros sitios)
                   setImgUrl(data.secure_url);
                   setPublicId(data.public_id);
-                  // Y también actualizamos los valores de Formik para que
-                  // `values.imgUrl` y `values.publicId` estén disponibles en onSubmit
                   setFieldValue("imgUrl", data.secure_url);
                   setFieldValue("publicId", data.public_id);
                 }}
                 ref={subirRef}
               />
-              {/* Si querés mostrar/editar los campos dentro del form, podés
-                  añadir campos ocultos ligados a Formik. */}
               <Field type="hidden" name="imgUrl" value={values.imgUrl} />
               <Field type="hidden" name="publicId" value={values.publicId} />
             </Form.Group>
