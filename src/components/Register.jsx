@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Formik, Field } from "formik";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
-import styles from "./login/Login.module.css";
+import styles from "./login/login.module.css";
 import { getRegisterSchema } from "../schemas/registerSchemas";
 import { registerApiObligatorio } from "../services/registerService";
 import moment from "moment";

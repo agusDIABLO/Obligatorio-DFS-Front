@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Formik, Field } from "formik";
-import styles from "./Login.module.css";
+import styles from "./login.module.css";
 import { getLoginSchema } from "../../schemas/loginSchemas";
 import { loginApiObligatorio } from "../../services/loginServices";
 import { jwtDecode } from "jwt-decode";
