@@ -14,7 +14,15 @@ const serviciosSlice = createSlice({
   reducers: {
     // acción síncrona para establecer los servicios manualmente si se necesita
     setServicios: (state, action) => {
-      state.servicios = action.payload;
+      const serviciosIniciales = action.payload;
+      return serviciosIniciales;
+      
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -34,5 +42,5 @@ const serviciosSlice = createSlice({
   },
 });
 
-export const { setServicios } = serviciosSlice.actions;
+export const { setServicios, setLoading, setError } = serviciosSlice.actions;
 export default serviciosSlice.reducer;

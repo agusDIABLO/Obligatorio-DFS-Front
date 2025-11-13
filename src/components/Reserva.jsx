@@ -14,6 +14,8 @@ import { crearReserva } from "../redux/features/reserva/reservaSlice";
 import { getUsersByRole } from "../redux/features/user/userThunk";
 import { getAllServiciosThunk } from "../redux/features/service/servicesThunk";
 import moment from "moment"; // <-- lo estás usando en onSubmit
+import { getAllServiciosThunk } from "../redux/features/service/servicesThunk";
+import { getAllServiciosService } from "../services/serviceService";
 
 
 
@@ -48,24 +50,32 @@ const Reserva = () => {
     const token = localStorage.getItem("token");
     if (token) {
       dispatch(getUsersByRole("barber"));
+      dispatch(getAllServiciosThunk());
     }
     // Cargamos los servicios para poblar el select
     dispatch(getAllServiciosThunk());
   }, [dispatch]);
 
+
+  useEffect(() => {
+    console.log("🧾 imgUrl actualizado:", imgUrl);
+  }, [imgUrl]);
+
   const onSubmit = async (values, actions) => {
+    console.log("🚀 onSubmit ejecutado con valores:", values);
     try {
       const { barbero, servicio, fechaReserva, imgUrl } = values;
-
+      
+      console.log('barbero', barbero)
       const nuevaReserva = {
         barberId: barbero,
         serviceId: servicio,
-        reservationDateTime: fechaReserva,
+        reservationDateTime: new Date(fechaReserva).toISOString(),
         imgUrl: imgUrl
       };
-
+      console.log("🧠 Datos que se envían al backend:", nuevaReserva);
       const payload = await crearReservaService(nuevaReserva);
-      
+      console.log('payload', payload)
       // 👇 Guardamos en Redux
       dispatch(crearReserva(payload));
 
@@ -93,7 +103,7 @@ const Reserva = () => {
       toast.error(error.message || "Error al crear la reserva");
     }
   };
-
+console.log("Servicios disponibles:", servicios);
   return (
     <div className={styles.loginContainer}>
       <h2>Realizar Reserva</h2>
@@ -101,7 +111,7 @@ const Reserva = () => {
       {/* Si hubo error al cargar barberos, mostralo arriba del form (opcional) */}
       {error && <div className="alert alert-danger">{String(error)}</div>}
 
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ handleSubmit, touched, errors }) => (
           <Form onSubmit={handleSubmit} className={styles.loginForm}>
             {/* BARBERO */}
@@ -136,6 +146,7 @@ const Reserva = () => {
                 as="select"
                 name="servicio"
                 className={`form-control ${touched.servicio && errors.servicio ? "is-invalid" : ""}`}
+                disabled={cargandoServicios}
               >
                 <option value="">{cargandoServicios ? t("cargando") : "Seleccione el servicio"}</option>
                 {servicios?.map((s) => (
@@ -147,13 +158,13 @@ const Reserva = () => {
               {touched.servicio && errors.servicio ? (
                 <div className="invalid-feedback">{errors.servicio}</div>
               ) : null}
+              {errorServicios && <div className="text-danger mt-1">{String(errorServicios)}</div>}
             </Form.Group>
-
             {/* FECHA */}
             <Form.Group controlId="fechaReserva">
               <Form.Label>Fecha</Form.Label>
               <Field
-                type="dateTime-local"
+                type="datetime-local"
                 name="fechaReserva"
                 className={`form-control ${touched.fechaReserva && errors.fechaReserva ? "is-invalid" : ""}`}
               />
@@ -162,7 +173,13 @@ const Reserva = () => {
               ) : null}
             </Form.Group>
           <Form.Group controlId="imagen">
-            <SubirImagen handleImgURL={(url) => setImgUrl(url)} ref={subirRef} />
+            <SubirImagen
+  handleImgURL={(data) => {
+    console.log("📸 Recibido del hijo:", data);
+    setImgUrl(data.secure_url); // guardamos solo el secure_url
+  }}
+  ref={subirRef}
+/>
           </Form.Group>
             <Button variant="primary" type="submit" className={styles.submitButton}>
               Enviar

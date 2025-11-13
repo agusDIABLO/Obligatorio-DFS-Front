@@ -24,7 +24,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = (err) => reject(err);
+      reader.onerror = (err) => reject(err);  
     });
   };
 
@@ -46,8 +46,8 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
       console.log("Resultado Cloudinary:", result); 
       setImageData(result);
       toast.success("Imagen subida con éxito");
-      handleImgURL(result.secure_url);
-      console.log('imageData', imageData)
+      handleImgURL(result);
+      console.log('result', result)
     } catch (err) {
       alert("Error al subir la imagen: " + err.message);
     } finally {
