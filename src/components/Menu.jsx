@@ -8,7 +8,7 @@ const Menu = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
   const [userPlan, setUserPlan] = useState("");
-
+  const [userRole, setUserRole] = useState("");
     useEffect(() => {
     const storedId = localStorage.getItem("userId");
     if (storedId) {
@@ -23,7 +23,9 @@ const Menu = () => {
         try {
             const response = await obtenerUsuarioByIdService(userId);
             setUserPlan(response.User.plan);
-        }
+            setUserRole(response.User.role);
+            console.log("Usuario obtenido:", response.User.role);
+          }
         catch (error) {
             console.error("Error al obtener el usuario:", error);
         }
@@ -63,7 +65,8 @@ const Menu = () => {
       <nav>
         <Link to="/" className="btn-violet" >Home</Link> {" "}
         <Link to="/reserva" className="btn-violet font-semibold">Reservar</Link> {" "}
-        <Link to="/grafico" className="btn-violet">Gráfico</Link> {" "}
+        {userRole == "admin" && (
+        <Link to="/grafico" className="btn-violet">Gráfico</Link>)} {" "}
         <button onClick={handleLogout} className="btn-violet"><strong>Logout</strong></button>{" "}
         <button onClick={handleChangePlan} className="btn-violet"><strong>Cambiar plan</strong></button>
       </nav>

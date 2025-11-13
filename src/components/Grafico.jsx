@@ -13,6 +13,8 @@ import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Grafico = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
+    console.log("Etiquetas:", etiquetas);
+  console.log("Datos:", datos);
   const options = {
     responsive: true,
     plugins: {

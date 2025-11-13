@@ -26,10 +26,11 @@ const Dashboard = () => {
       cargaInicialReservas();
       cargaInicialServicios();
       console.log('cargaInicialServicios', cargaInicialServicios)
+
     }
     
     if (estaLogueado && tienePermiso) { 
-      cargaUsuarios = cargaInicialUsuarios();
+      cargaInicialUsuarios();
       cargaInicialAllReservas();
     }
 

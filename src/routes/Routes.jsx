@@ -11,6 +11,7 @@ import EditarTarjeta from "../components/EditarTarjeta";
 import SubirImagen from "../components/SubirImagen";
 
 
+
 const Rutas = () => {
   return (
     <BrowserRouter>

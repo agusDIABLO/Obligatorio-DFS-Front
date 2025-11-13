@@ -12,15 +12,18 @@ export default function GraficoReservas() {
   useEffect(() => {
     // Contar reservas por usuario
     const conteoReservas = listaReservas.reduce((acc, reserva) => {
-      acc[reserva.userId] = (acc[reserva.userId] || 0) + 1;
+
+      const userId = reserva.userId || reserva.user?._id || reserva.user?.id;
+      if (userId) acc[userId] = (acc[userId] || 0) + 1;
       return acc;
     }, {});
+
 
     // Transformar IDs en nombres
     const userIDs = Object.keys(conteoReservas);
     const nombres = userIDs.map((id) => {
-      const user = usersList.find((u) => u.id === parseInt(id));
-      return user?.name || "Desconocido";
+      const user = usersList.find((u) => u.id == id || u._id == id || u.userId == id);
+      return user ? user.name : "Desconocido";
     });
 
     setListaUsuarios(nombres);
