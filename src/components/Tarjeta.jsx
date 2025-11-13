@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { FaTrash, FaPencilAlt, FaSave, FaTimes } from "react-icons/fa";
+import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice";
-import { borrarReserva, updateReserva } from "../redux/features/reserva/reservaSlice";
+import { borrarReserva } from "../redux/features/reserva/reservaSlice";
 import { cancelarReservaService } from "../services/reservationServices";
 import { useNavigate } from "react-router-dom";
 
