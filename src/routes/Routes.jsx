@@ -5,7 +5,7 @@ import Register from "../components/Register";
 import Dashboard from "../components/Dashboard";
 import Contenido from "../components/Contenido";
 import Reserva from "../components/Reserva";
-import Grafico from "../components/Grafico";
+import GraficoMeses from "../components/GraficoMeses";
 import App from "../App";
 import EditarTarjeta from "../components/EditarTarjeta";
 import SubirImagen from "../components/SubirImagen";
@@ -21,7 +21,7 @@ const Rutas = () => {
         <Route path="/" element={<Dashboard />}>
           <Route index element={<Contenido />} />
           <Route path="/reserva" element={<Reserva />} />
-          <Route path="/grafico" element={<Grafico />} />
+          <Route path="/grafico" element={<GraficoMeses />} />
           <Route path="/editarTarjeta/:id" element={<EditarTarjeta />} />      
           <Route path="/subirImagen" element={<SubirImagen />} />
         </Route>

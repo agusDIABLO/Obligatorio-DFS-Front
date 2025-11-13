@@ -62,6 +62,7 @@ const Menu = () => {
         <Link to="/reserva" className="btn-violet font-semibold">Reservar</Link> {" "}
         {userRole == "admin" && (
           <Link to="/grafico" className="btn-violet">Gráfico</Link>)} {" "}
+          <Link to="/grafico" className="btn-violet">Gráfico</Link> {" "}
         <button onClick={handleLogout} className="btn-violet"><strong>Logout</strong></button>{" "}
         <button onClick={handleChangePlan} className="btn-violet"><strong>Cambiar plan</strong></button>
       </nav>
