@@ -4,6 +4,7 @@ import { obtenerReservaByIdService, modificarFechaReservaService } from "../serv
 import { useDispatch } from "react-redux";
 import { updateReserva } from "../redux/features/reserva/reservaSlice";
 import { startLoading, stopLoading } from "../redux/features/loadingSlice";
+import { toast } from "react-toastify";
 
 
 const EditarTarjeta = () => {
@@ -31,13 +32,13 @@ const EditarTarjeta = () => {
   const handleSave = async () => {
     try {
       dispatch(startLoading());
-      await modificarFechaReservaService(id, { reservationDateTime: nuevaFecha });
+      await modificarFechaReservaService(id, { reservationDateTime: new Date(nuevaFecha).toISOString() });
       dispatch(updateReserva({ _id: id, reservationDateTime: nuevaFecha }));
       alert("Reserva actualizada correctamente");
       navigate("/");
     } catch (error) {
       console.error("Error al actualizar la reserva:", error);
-      alert("Error al actualizar la reserva");
+      toast.error("No se pudo actualizar la reserva");
     } finally {
       dispatch(stopLoading());
     }

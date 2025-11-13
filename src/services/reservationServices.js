@@ -73,8 +73,8 @@ export const obtenerTodasLasReservasService = async () => {
 }
 
 
-export const modificarFechaReservaService = async (reservationId, nuevaFecha) => {
-    return api.patch(`/reservations/${reservationId}`, nuevaFecha)
+export const modificarFechaReservaService = async (reservationId, reservationDateTime) => {
+    return api.patch(`/reservations/${reservationId}`, reservationDateTime)
         .then(response => {
             console.log('Reserva modificada:', response.data);
             return response.data;
