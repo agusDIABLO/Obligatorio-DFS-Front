@@ -11,6 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import moment from "moment";
 
 
+
 const initialValues = {
     email: "",
     password: ""
@@ -90,6 +91,14 @@ const Login = () => {
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
+                    <Button
+                    variant="link"
+                    onClick={() => navigate("/register")}
+                    className="btn-login"
+                    >
+                    ¿No tienes cuenta? Regístrate
+                    </Button>
+
                 </Form>
             )}
         </Formik></>

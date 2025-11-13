@@ -11,9 +11,9 @@ import { registerApiObligatorio } from "../services/registerService";
 
 
 const initialValues = {
+    name: "",
     email: "",
     password: "",
-    name: "",
     phone: ""
 };
 
@@ -28,9 +28,11 @@ const Register = () => {
 
     const onSubmit = async (values, actions) => {
         try {
-            const { name, email,phone, password } = values;
-            const {token} = await registerApiObligatorio(name, email, phone, password);
+            const { name, email, password, phone } = values;
 
+            console.log('values', values)
+            const response = await registerApiObligatorio(name, email,password, phone);
+            const token = response.token;
             const decoded = jwtDecode(token);
             const { exp, iat, id: userId, role} = decoded;
 
