@@ -12,6 +12,7 @@ import { getReservaSchema } from "../schemas/reservaSchemas";
 import { crearReservaService } from "../services/reservationServices";
 import { crearReserva } from "../redux/features/reserva/reservaSlice";
 import { getUsersByRole } from "../redux/features/user/userThunk";
+import { getAllServiciosThunk } from "../redux/features/service/servicesThunk";
 import moment from "moment"; // <-- lo estás usando en onSubmit
 
 
@@ -37,6 +38,10 @@ const Reserva = () => {
     (state) => state.userSlice
   );
 
+  const { servicios: servicios, loading: cargandoServicios } = useSelector(
+    (state) => state.serviciosSlice
+  );
+
   const validationSchema = useMemo(() => getReservaSchema(t), [i18n.language, t]);
 
   useEffect(() => {
@@ -44,6 +49,8 @@ const Reserva = () => {
     if (token) {
       dispatch(getUsersByRole("barber"));
     }
+    // Cargamos los servicios para poblar el select
+    dispatch(getAllServiciosThunk());
   }, [dispatch]);
 
   const onSubmit = async (values, actions) => {
@@ -130,9 +137,12 @@ const Reserva = () => {
                 name="servicio"
                 className={`form-control ${touched.servicio && errors.servicio ? "is-invalid" : ""}`}
               >
-                <option value="">Seleccione el servicio</option>
-                <option value="corte">Corte de cabello</option>
-                <option value="afeitado">Afeitado</option>
+                <option value="">{cargandoServicios ? t("cargando") : "Seleccione el servicio"}</option>
+                {servicios?.map((s) => (
+                  <option key={s._id ?? s.id} value={s._id ?? s.id}>
+                    {s.name}
+                  </option>
+                ))}
               </Field>
               {touched.servicio && errors.servicio ? (
                 <div className="invalid-feedback">{errors.servicio}</div>

@@ -6,6 +6,7 @@ export const getAllServiciosThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getAllServiciosService();
+      console.log("Servicios obtenidos:", response);
       return response; // debería ser un array de servicios
     } catch (error) {
       return rejectWithValue(error.message);
