@@ -14,7 +14,6 @@ import { crearReserva } from "../redux/features/reserva/reservaSlice";
 import { getUsersByRole } from "../redux/features/user/userThunk";
 import { getAllServiciosThunk } from "../redux/features/service/servicesThunk";
 import moment from "moment"; // <-- lo estás usando en onSubmit
-import { getAllServiciosThunk } from "../redux/features/service/servicesThunk";
 import { getAllServiciosService } from "../services/serviceService";
 
 
@@ -140,26 +139,29 @@ console.log("Servicios disponibles:", servicios);
             </Form.Group>
 
             {/* SERVICIO */}
-            <Form.Group controlId="servicio">
-              <Form.Label>Servicio</Form.Label>
-              <Field
-                as="select"
-                name="servicio"
-                className={`form-control ${touched.servicio && errors.servicio ? "is-invalid" : ""}`}
-                disabled={cargandoServicios}
-              >
-                <option value="">{cargandoServicios ? t("cargando") : "Seleccione el servicio"}</option>
-                {servicios?.map((s) => (
-                  <option key={s._id ?? s.id} value={s._id ?? s.id}>
-                    {s.name}
-                  </option>
-                ))}
-              </Field>
-              {touched.servicio && errors.servicio ? (
-                <div className="invalid-feedback">{errors.servicio}</div>
-              ) : null}
-              {errorServicios && <div className="text-danger mt-1">{String(errorServicios)}</div>}
-            </Form.Group>
+  <Form.Group controlId="servicio">
+  <Form.Label>Servicio</Form.Label>
+  <Field
+    as="select"
+    name="servicio"
+    className={`form-control ${touched.servicio && errors.servicio ? "is-invalid" : ""}`}
+    disabled={cargandoServicios}
+  >
+    <option value="">
+      {cargandoServicios ? "Cargando servicios..." : "Seleccione el servicio"}
+    </option>
+
+    {Array.isArray(servicios) &&
+      servicios.map((s) => (
+        <option key={s._id ?? s.id} value={s._id ?? s.id}>
+          {s.name ?? "Servicio sin nombre"}
+        </option>
+      ))}
+  </Field>
+  {touched.servicio && errors.servicio && (
+    <div className="invalid-feedback">{errors.servicio}</div>
+  )}
+</Form.Group>
             {/* FECHA */}
             <Form.Group controlId="fechaReserva">
               <Form.Label>Fecha</Form.Label>
