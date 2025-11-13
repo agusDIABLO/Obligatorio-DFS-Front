@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status }) => {
+const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, imgUrl }) => {
+   console.log("🖼️ imgUrl:", imgUrl);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const transformUserIdToName = useCustomHookUser();
@@ -26,6 +27,7 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status }
     try {
       dispatch(startLoading());
       await cancelarReservaService(id);
+
       dispatch(borrarReserva(id));
     } catch (error) {
       console.error("Error al eliminar la reserva:", error);
@@ -81,12 +83,23 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status }
             background: "none",
             border: "none",
             cursor: "pointer",
-            marginLeft: "8px",
+            marginLeft: "8px"
           }}
           title="Editar fecha"
         >
           <FaPencilAlt color="blue" size={20} />
         </button>
+      </td>
+        <td>
+        {imgUrl && (
+          <div style={{ marginTop: "10px" }}>
+            <img
+              src={imgUrl}
+              alt="Imagen no se puede mostrar"
+              style={{ maxWidth: "200px", borderRadius: "8px" }}
+            />
+          </div>
+        )}
       </td>
     </tr>
   );

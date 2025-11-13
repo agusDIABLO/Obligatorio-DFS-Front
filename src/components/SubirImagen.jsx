@@ -1,6 +1,7 @@
 import React, {useId, useState, useImperativeHandle, forwardRef} from "react";
 import BotonSubir from "./BotonSubir";
 import { uploadImage, deleteImage } from "../services/imageService";
+import { toast } from "react-toastify";
 
 
 const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
@@ -42,9 +43,9 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     setLoading(true);
     try {
       const result = await uploadImage(preview);
-      console.log("Resultado Cloudinary:", result); // 👈
+      console.log("Resultado Cloudinary:", result); 
       setImageData(result);
-      alert("Imagen subida con éxito");
+      toast.success("Imagen subida con éxito");
       handleImgURL(result.secure_url);
       console.log('imageData', imageData)
     } catch (err) {
@@ -59,7 +60,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     setLoading(true);
     try {
       await deleteImage(imageData.public_id);
-      alert("🗑️ Imagen eliminada con éxito");
+      toast.error("Imagen eliminada con éxito");
       setPreview(null);
       setImageData(null);
     } catch (err) {
@@ -73,7 +74,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
   
   return (
     <div style={{ maxWidth: 400, margin: "2rem auto", textAlign: "center" }}>
-      <h2>Seleccionar imagen a Cloudinary</h2>
+      <h2>Seleccione una imagen</h2>
 
       <input
         type="file"

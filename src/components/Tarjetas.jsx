@@ -5,6 +5,7 @@ import { Table } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { getReservationsSlice } from "../redux/features/reserva/reservaThunk";
 
+
 const Tarjetas = () => {
   // seleccionar la lista de reservas (el slice guarda { list, loading, error })
   const dispatch = useDispatch();
@@ -68,12 +69,12 @@ const Tarjetas = () => {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-
             <th>Cliente</th>
             <th>Fecha</th>
             <th>Servicio</th>
             <th>Estado</th>
             <th></th>
+            <th>Imagen</th>
           </tr>
         </thead>
         <tbody>

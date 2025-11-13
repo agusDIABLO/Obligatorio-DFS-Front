@@ -59,7 +59,7 @@ const EditarTarjeta = () => {
           Nueva fecha:
         </label>
         <input
-          type="date"
+          type="dateTime-local" 
           id="fecha"
           value={nuevaFecha}
           onChange={(e) => setNuevaFecha(e.target.value)}

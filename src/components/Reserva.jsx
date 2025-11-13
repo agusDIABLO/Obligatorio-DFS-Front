@@ -143,7 +143,7 @@ const Reserva = () => {
             <Form.Group controlId="fechaReserva">
               <Form.Label>Fecha</Form.Label>
               <Field
-                type="date"
+                type="dateTime-local"
                 name="fechaReserva"
                 className={`form-control ${touched.fechaReserva && errors.fechaReserva ? "is-invalid" : ""}`}
               />
