@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Formik, Field } from "formik";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
-import styles from "./login/Login.module.css";
+import styles from "./login/login.module.css";
 import { getReservaSchema } from "../schemas/reservaSchemas";
 import { crearReservaService } from "../services/reservationServices";
 import { crearReserva } from "../redux/features/reserva/reservaSlice";
@@ -67,7 +67,7 @@ const Reserva = () => {
         toast.warn("Debe ingresar barbero, servicio, fecha e imagen antes de enviar");
         return;
       }
-      
+
       const nuevaReserva = {
         barberId: barbero,
         serviceId: servicio,
