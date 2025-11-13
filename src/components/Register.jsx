@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import styles from "./login/Login.module.css";
 import { getRegisterSchema } from "../schemas/registerSchemas";
 import { registerApiObligatorio } from "../services/registerService";
+import moment from "moment";
 
 
 const initialValues = {
@@ -30,9 +31,11 @@ const Register = () => {
         try {
             const { name, email, password, phone } = values;
 
-            console.log('values', values)
-            const response = await registerApiObligatorio(name, email,password, phone);
-            const token = response.token;
+            console.log("values", values);
+            const response = await registerApiObligatorio(name, email, password, phone);
+            console.log("register response", response);
+            const token = response && response.token;
+            if (!token) throw new Error("El servidor no devolvió token en el registro");
             const decoded = jwtDecode(token);
             const { exp, iat, id: userId, role} = decoded;
 
@@ -48,10 +51,16 @@ const Register = () => {
             toast.success(t("Registro exitoso! Bienvenido ") + name);
             actions.resetForm();
             navigate("/");
-        } catch (error) {
-            console.log('error en registro', error);
-            toast.error(error.message);
-        }
+    } catch (error) {
+      // Mejor feedback: si registerService lanzó un Error con propiedades extra (status/responseData), mostrarlas
+      console.error("error en registro", error);
+      const serverMsg = error.responseData && (error.responseData.message || error.responseData.error || JSON.stringify(error.responseData));
+      const message = serverMsg || error.message || "Error en el registro";
+      // Mostrar en UI y consola
+      toast.error(message);
+      // opcional: mantener el stack en consola para debugging
+      if (error.stack) console.debug(error.stack);
+    }
     };
           return (
     <>
