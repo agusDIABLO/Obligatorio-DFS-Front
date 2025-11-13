@@ -7,13 +7,6 @@ export default defineConfig({
   server: {
     open: true,
     port: 5176,
-    watch: { usePolling: true },
-    proxy: {
-      '/api/v1': {
-        target: 'https://obligatorio-dfs-inky.vercel.app',
-        changeOrigin: true,
-        secure: true,
-      },
-    },
+    watch: { usePolling: true }
   }
 })

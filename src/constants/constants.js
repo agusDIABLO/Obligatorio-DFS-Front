@@ -1,1 +1,1 @@
-export const urlBackend = "/api/v1";
+export const urlBackend = "https://obligatorio-dfs-inky.vercel.app/api/v1";
