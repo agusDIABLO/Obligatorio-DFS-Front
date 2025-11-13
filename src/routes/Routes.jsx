@@ -9,6 +9,7 @@ import GraficoMeses from "../components/GraficoMeses";
 import App from "../App";
 import EditarTarjeta from "../components/EditarTarjeta";
 import SubirImagen from "../components/SubirImagen";
+import RutaAdmin from "../components/RutaAdmin";
 
 
 
@@ -21,7 +22,10 @@ const Rutas = () => {
         <Route path="/" element={<Dashboard />}>
           <Route index element={<Contenido />} />
           <Route path="/reserva" element={<Reserva />} />
-          <Route path="/grafico" element={<GraficoMeses />} />
+          <Route path="/grafico" element={
+            <RutaAdmin>
+            <GraficoMeses />
+            </RutaAdmin>} />
           <Route path="/editarTarjeta/:id" element={<EditarTarjeta />} />      
           <Route path="/subirImagen" element={<SubirImagen />} />
         </Route>
