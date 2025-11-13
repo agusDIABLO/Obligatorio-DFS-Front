@@ -33,7 +33,7 @@ const EditarTarjeta = () => {
       dispatch(startLoading());
       await modificarFechaReservaService(id, { reservationDateTime: new Date(nuevaFecha).toISOString() });
       dispatch(updateReserva({ _id: id, reservationDateTime: nuevaFecha }));
-      alert("Reserva actualizada correctamente");
+      toast.success("Reserva actualizada correctamente");
       navigate("/");
     } catch (error) {
       console.error("Error al actualizar la reserva:", error);
@@ -43,7 +43,6 @@ const EditarTarjeta = () => {
     }
   };
   
-  console.log('reserva luego del state', reserva)
   if (!reserva) return <p>Cargando reserva...</p>;
 
   return (

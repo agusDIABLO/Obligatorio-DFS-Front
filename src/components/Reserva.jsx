@@ -55,18 +55,20 @@ const Reserva = () => {
   }, [dispatch]);
 
 
-  useEffect(() => {
-    console.log("🧾 imgUrl actualizado:", imgUrl);
-    console.log("🧾 publicId actualizado:", publicId);
-  }, [imgUrl, publicId]);
+  useEffect(() => { }, [imgUrl, publicId]);
 
   const onSubmit = async (values, actions) => {
-    console.log("🚀 onSubmit ejecutado con valores:", values);
     try {
       const token = localStorage.getItem("token");
       const { barbero, servicio, fechaReserva, imgUrl: formImgUrl, publicId: formPublicId } = values;
       const finalImgUrl = formImgUrl || imgUrl; // imgUrl desde el estado local
       const finalPublicId = formPublicId || publicId; // publicId desde el estado local
+
+      // Validación adicional: si falta barbero, servicio, fecha o imagen, mostrar toastr y no enviar
+      if (!barbero || !servicio || !fechaReserva || !finalImgUrl || !finalPublicId) {
+        toast.warn("Debe ingresar barbero, servicio, fecha e imagen antes de enviar");
+        return;
+      }
 
       const nuevaReserva = {
         barberId: barbero,
@@ -75,13 +77,10 @@ const Reserva = () => {
         imgUrl: finalImgUrl,
         publicId: finalPublicId
       };
-      console.log("🧠 Datos que se envían al backend:", nuevaReserva);
       const payload = await crearReservaService(nuevaReserva);
-      console.log('payload', payload)
       // 👇 Guardamos en Redux
       dispatch(crearReserva(payload));
 
-      toast.success(t("reserva.success_message"));
       actions.resetForm();
       // Si existe token, actualizamos algunos datos de sesión
       if (token) {
@@ -101,7 +100,7 @@ const Reserva = () => {
         }
       }
 
-      toast.success(t("reserva.success_message"));
+      toast.success(t("Reserva enviada con éxito"));
       actions.resetForm();
       navigate("/");
     } catch (error) {

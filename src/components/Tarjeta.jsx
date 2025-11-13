@@ -39,11 +39,22 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
     navigate(`/editarTarjeta/${id}`);
   };
 
+  // formatear fecha y hora sin segundos (HH:MM)
+  const formattedDateTime = reservationDateTime
+    ? new Date(reservationDateTime).toLocaleString(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "Fecha no disponible";
+
   return (
     <tr>
 
       <td>{customerId?.name ?? "Cliente desconocido"}</td>
-      <td>{new Date(reservationDateTime).toLocaleString()}</td>
+      <td>{formattedDateTime}</td>
       <td>{serviceId?.name ?? "Servicio no encontrado"}</td>
       <td>
         <b

@@ -20,6 +20,7 @@ const Tarjetas = () => {
 
   useEffect(() => {
     const fechaURL = searchParam.get("fecha");
+    setFechaFiltro(fechaURL || "");
     aplicarFiltro(fechaURL);
   }, [reservas]);
 
@@ -32,13 +33,32 @@ const Tarjetas = () => {
   };
 
   const aplicarFiltro = (fecha) => {
-    let auxList = reservas;
-    if (fecha) {      
-      auxList = reservas.filter((r) => r.fechaReserva == fecha);
+    // Make a non-mutating copy and sort by reservationDateTime ascending
+    // so oldest reservations appear first. Sorting happens before filtering
+    // so filtering preserves the chronological order.
+    const sorted = [...reservas].sort((a, b) => {
+      const ta = a && a.reservationDateTime ? new Date(a.reservationDateTime).getTime() : 0;
+      const tb = b && b.reservationDateTime ? new Date(b.reservationDateTime).getTime() : 0;
+      return ta - tb;
+    });
+
+    let auxList = sorted;
+    if (fecha) {
+      // comparar solo la parte de fecha (YYYY-MM-DD) usando la fecha local
+      auxList = sorted.filter((r) => {
+        if (!r.reservationDateTime) return false;
+        const d = new Date(r.reservationDateTime);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        const localDate = `${yyyy}-${mm}-${dd}`;
+        return localDate === fecha;
+      });
       setSearchParam({ fecha });
     } else {
       setSearchParam({});
     }
+
     setListaFiltrada(auxList);
   };
 
