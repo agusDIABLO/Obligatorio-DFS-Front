@@ -35,7 +35,7 @@ export default function GraficoMeses({ year }) {
       const mes = d.getMonth();
       conteo[mes] = (conteo[mes] || 0) + 1;
     });
-
+    
     setDatosPorMes(conteo);
   }, [listaReservas, year]);
 

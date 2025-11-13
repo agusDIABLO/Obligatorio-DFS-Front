@@ -67,7 +67,7 @@ const Reserva = () => {
         toast.warn("Debe ingresar barbero, servicio, fecha e imagen antes de enviar");
         return;
       }
-
+      
       const nuevaReserva = {
         barberId: barbero,
         serviceId: servicio,
