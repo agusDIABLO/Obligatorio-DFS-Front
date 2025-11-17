@@ -75,6 +75,8 @@ const Reserva = () => {
         imgUrl: finalImgUrl,
         publicId: finalPublicId
       };
+      console.log('nuevaReserva', nuevaReserva)
+
       const payload = await crearReservaService(nuevaReserva);
       dispatch(crearReserva(payload));
 
