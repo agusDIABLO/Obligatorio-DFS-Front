@@ -1,4 +1,6 @@
-import { urlBackend } from "../constants/constants";
+//import { urlBackend } from "../constants/constants";
+const urlBackend = import.meta.env.VITE_URL_BACKEND;
+
 
 const URL_IMAGES = `${urlBackend}/images`;
 

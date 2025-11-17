@@ -1,5 +1,7 @@
 import axios from "axios";
-import { urlBackend } from "../constants/constants";
+//import { urlBackend } from "../constants/constants";
+const urlBackend = import.meta.env.VITE_URL_BACKEND;
+
 
 export const registerApiObligatorio = async (name, email, password, phone) => {
     console.log('name, email, password, phone', name, email, password, phone)

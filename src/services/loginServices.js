@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { urlBackend } from '../constants/constants';
+//import { urlBackend } from '../constants/constants';
+const urlBackend = import.meta.env.VITE_URL_BACKEND;
 
 
 export const loginApiObligatorio = async (email, password) => {
