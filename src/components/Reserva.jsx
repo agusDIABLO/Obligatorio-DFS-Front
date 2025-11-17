@@ -13,7 +13,7 @@ import { crearReservaService } from "../services/reservationServices";
 import { crearReserva } from "../redux/features/reserva/reservaSlice";
 import { getUsersByRole } from "../redux/features/user/userThunk";
 import { getAllServiciosThunk } from "../redux/features/service/servicesThunk";
-import moment from "moment";
+import moment from "moment-timezone";
 
 
 const initialValues = {
@@ -67,11 +67,12 @@ const Reserva = () => {
         toast.warn("Debe ingresar barbero, servicio, fecha e imagen antes de enviar");
         return;
       }
-
+      const fechaFinal = moment.tz(fechaReserva, "America/Montevideo").toISOString();
+      
       const nuevaReserva = {
         barberId: barbero,
         serviceId: servicio,
-        reservationDateTime: new Date(fechaReserva).toISOString(),
+        reservationDateTime: fechaFinal,
         imgUrl: finalImgUrl,
         publicId: finalPublicId
       };
