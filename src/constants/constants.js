@@ -1,1 +1,0 @@
-export const urlBackend = "https://obligatorio-dfs-inky.vercel.app/api/v1";
