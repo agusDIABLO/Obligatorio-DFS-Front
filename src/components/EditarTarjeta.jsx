@@ -31,6 +31,8 @@ const EditarTarjeta = () => {
   const handleSave = async () => {
     try {
       dispatch(startLoading());
+      console.log('id', id)
+      console.log('nuevaFecha', nuevaFecha)
       await modificarFechaReservaService(id, { reservationDateTime: new Date(nuevaFecha).toISOString() });
       dispatch(updateReserva({ _id: id, reservationDateTime: nuevaFecha }));
       toast.success("Reserva actualizada correctamente");
