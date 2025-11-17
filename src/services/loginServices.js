@@ -1,10 +1,10 @@
 import axios from 'axios';
-//import { urlBackend } from '../constants/constants';
+
 const urlBackend = import.meta.env.VITE_URL_BACKEND;
 
  
 export const loginApiObligatorio = async (email, password) => {
-    console.log("Backend URL:", import.meta.env.VITE_URL_BACKEND);
+console.log("Backend URL:", import.meta.env.VITE_URL_BACKEND);
     
     try {
         const response = await axios.post(
