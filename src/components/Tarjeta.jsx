@@ -41,10 +41,10 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
 
   return (
     <tr>
-      <td>{customerId?.name ?? "Cliente desconocido"}</td>
-      <td>{formattedDateTime}</td>
-      <td>{serviceId?.name ?? "Servicio no encontrado"}</td>
-      <td>
+      <td style={{ verticalAlign: "middle", textAlign: "center" }}>{customerId?.name ?? "Cliente desconocido"}</td>
+      <td style={{ verticalAlign: "middle", textAlign: "center" }}>{formattedDateTime}</td>
+      <td style={{ verticalAlign: "middle", textAlign: "center" }}>{serviceId?.name ?? "Servicio no encontrado"}</td>
+      <td style={{ verticalAlign: "middle", textAlign: "center" }}>
         <b
           style={{
             color:
@@ -58,7 +58,7 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
           {status}
         </b>
       </td>
-      <td>
+      <td style={{ verticalAlign: "middle", textAlign: "center" }}>
         <button
           onClick={handleDelete}
           style={{ background: "none", border: "none", cursor: "pointer" }}
@@ -80,7 +80,7 @@ const Tarjeta = ({ _id: id, customerId, serviceId, reservationDateTime, status, 
           <FaPencilAlt color="blue" size={20} />
         </button>
       </td>
-      <td>
+      <td style={{ verticalAlign: "middle", textAlign: "center" }}>
         {imgUrl && (
           <div style={{ marginTop: "10px" }}>
             <img

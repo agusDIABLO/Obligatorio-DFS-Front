@@ -54,7 +54,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     setLoading(true);
     try {
       await deleteImage(imageData.public_id);
-      toast.error("Imagen eliminada con éxito");
+      toast.success("Imagen eliminada con éxito");
       setPreview(null);
       setImageData(null);
     } catch (err) {
