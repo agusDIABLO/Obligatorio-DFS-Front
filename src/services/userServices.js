@@ -50,7 +50,7 @@ export const obtenerUsuarioByIdService = async (userId) => {
 }
 
 export const obtenerUsuariosPorRolService = async (role) => {
-    return api.get(`users/roles/${role}`)
+    return api.get(`/users/roles/${role}`)
         .then(response => {
             return response.data;
         })
